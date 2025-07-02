@@ -1,8 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import AppInput from '../components/AppInput';
+import BackButton from '../components/BackButton';
 import BottomSignupText from '../components/BottomSignupText';
 import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
@@ -16,31 +18,49 @@ const Customer_Login = () => {
 
   const loginHandler = () => {
     if (!email || !password) {
-      Alert.alert('Please enter all fields');
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter all fields',
+      });
       return;
     }
 
-    // Dummy login logic — replace with real backend check
     if (email === 'admin' && password === 'admin') {
-      navigation.navigate('AdminStack', {
-        screen: 'AdminDashboard' 
+      Toast.show({
+        type: 'success',
+        text1: 'Welcome Admin!',
       });
+      setTimeout(() => {
+        navigation.navigate('AdminStack', {
+          screen: 'AdminDashboard',
+        });
+      }, 1200);
     } else {
-      navigation.navigate('BottomTab');
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful!',
+      });
+      setTimeout(() => {
+        navigation.navigate('BottomTab');
+      }, 1200);
     }
-  };
-
-  const handleBack = () => {
-    navigation.navigate('Welcome');
   };
 
   const handleSignup = () => {
     navigation.navigate('Signup');
   };
 
+  const handleBack = () => {
+    navigation.navigate('Welcome');
+  };
+
   return (
     <View style={styles.container}>
-      {/* <BackButton onPress={handleBack} /> */}
+      {/* 👇 Back button with margin */}
+      <View style={styles.backButtonWrapper}>
+        <BackButton onPress={handleBack} />
+      </View>
+
       <View style={styles.content}>
         <LoginHeader title="Login" />
 
@@ -74,6 +94,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: '#fff',
+  },
+  backButtonWrapper: {
+    marginTop: 50,
   },
   content: {
     flex: 1,

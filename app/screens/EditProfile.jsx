@@ -1,17 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform, SafeAreaView, ScrollView,
-    StyleSheet, View
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import FormTitle from '../components/FormTitle';
 import IconInput from '../components/IconInput';
 import PrimaryButton from '../components/PrimaryButton';
 import ProfileHeader from '../components/ProfileHeader';
-
 
 const ProfileView = () => {
   const navigation = useNavigation();
@@ -27,16 +29,21 @@ const ProfileView = () => {
 
   const handleSave = () => {
     if (!name || !contact) {
-      Alert.alert('All fields must be filled!');
+      Toast.show({
+        type: 'error',
+        text1: 'All fields must be filled!',
+      });
       return;
     }
 
-    Alert.alert('Profile Updated Successfully!', '', [
-      {
-        text: 'OK',
-        onPress: () => navigation.navigate('Profile'),
-      },
-    ]);
+    Toast.show({
+      type: 'success',
+      text1: 'Profile updated successfully!',
+    });
+
+    setTimeout(() => {
+      navigation.navigate('Profile');
+    }, 1300);
   };
 
   const handleBack = () => {
@@ -55,7 +62,6 @@ const ProfileView = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* <BackButton onPress={handleBack} /> */}
 
           <ProfileHeader />
           <FormTitle title="Edit Profile" />

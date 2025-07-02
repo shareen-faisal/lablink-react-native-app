@@ -16,16 +16,9 @@ const Profile = () => {
       flex:1,
     },
   });
-  
-
-
-  const handleBack = () => {
-    navigation.goBack();
-  };
 
   return (
     <ScrollView style={styles.container}>
-      {/* <BackButton onPress={handleBack} /> */}
       <ProfileHeader />
       <ProfileDetails />
     </ScrollView>

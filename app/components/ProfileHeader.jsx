@@ -12,7 +12,7 @@ const ProfileHeader = () => {
           style={styles.avatar}
         />
       </View>
-      <Text style={styles.name}>Username</Text>
+      <Text style={styles.name}>the_moazam14</Text>
     </View>
   );
 };

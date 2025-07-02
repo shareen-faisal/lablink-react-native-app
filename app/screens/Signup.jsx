@@ -1,8 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import AppInput from '../components/AppInput';
+import BackButton from '../components/BackButton';
 import BottomLoginText from '../components/BottomLoginText';
 import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
@@ -20,19 +22,29 @@ const Customer_Signup = () => {
 
   const submitHandler = () => {
     if (!username || !phone || !password || !confirmPassword) {
-      Alert.alert("All fields are required!");
+      Toast.show({
+        type: 'error',
+        text1: 'All fields are required!',
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Passwords do not match!");
+      Toast.show({
+        type: 'error',
+        text1: 'Passwords do not match!',
+      });
       return;
     }
 
-    Alert.alert("Signed up successfully 🎉");
+    Toast.show({
+      type: 'success',
+      text1: 'Signed up successfully!',
+    });
 
-    // TODO: Save user to backend/Firebase
-    navigation.navigate('Login');
+    setTimeout(() => {
+      navigation.navigate('Login');
+    }, 1500);
   };
 
   const handleLoginNavigate = () => {
@@ -40,48 +52,54 @@ const Customer_Signup = () => {
   };
 
   const handleBack = () => {
-    navigation.goBack(); // or navigation.navigate('WelcomeScreen')
+    navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      {/* <BackButton onPress={handleBack} /> */}
-      <LoginHeader title="Sign Up" />
+      {/* 👇 Same back button spacing as Login screen */}
+      <View style={styles.backButtonWrapper}>
+        <BackButton onPress={handleBack} />
+      </View>
 
-      <AppInput
-        icon="person-outline"
-        placeholder="Enter your username"
-        value={username}
-        onChangeText={setUsername}
-      />
+      <View style={styles.content}>
+        <LoginHeader title="Sign Up" />
 
-      <AppInput
-        icon="call-outline"
-        placeholder="Enter your phone number"
-        value={phone}
-        onChangeText={setPhone}
-        keyboardType="phone-pad"
-      />
+        <AppInput
+          icon="person-outline"
+          placeholder="Enter your username"
+          value={username}
+          onChangeText={setUsername}
+        />
 
-      <PasswordInput
-        value={password}
-        onChangeText={setPassword}
-        hidePass={hidePass}
-        setHidePass={setHidePass}
-        placeholder="Enter password"
-      />
+        <AppInput
+          icon="call-outline"
+          placeholder="Enter your phone number"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
+        />
 
-      <PasswordInput
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        hidePass={hideConfirmPass}
-        setHidePass={setHideConfirmPass}
-        placeholder="Confirm password"
-      />
+        <PasswordInput
+          value={password}
+          onChangeText={setPassword}
+          hidePass={hidePass}
+          setHidePass={setHidePass}
+          placeholder="Enter password"
+        />
 
-      <PrimaryButton title="Sign Up" onPress={submitHandler} />
+        <PasswordInput
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          hidePass={hideConfirmPass}
+          setHidePass={setHideConfirmPass}
+          placeholder="Confirm password"
+        />
 
-      <BottomLoginText onPress={handleLoginNavigate} />
+        <PrimaryButton title="Sign Up" onPress={submitHandler} />
+
+        <BottomLoginText onPress={handleLoginNavigate} />
+      </View>
     </View>
   );
 };
@@ -93,6 +111,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: '#fff',
-    justifyContent:'center',
+  },
+  backButtonWrapper: {
+    marginTop: 50,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: 80,
   },
 });

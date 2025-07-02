@@ -1,16 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
@@ -21,23 +21,30 @@ const RemoveLabTest = () => {
   const navigation = useNavigation();
 
   const handleWhiteTap = () => {
-    navigation.goBack(); // Or navigate to AdminDashboard explicitly
+    navigation.goBack(); // or navigation.navigate('AdminDashboard')
   };
 
   const handleRemove = () => {
     if (!name.trim()) {
-      Alert.alert("Error", "Please enter a valid lab test name.");
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter a valid lab test name.',
+      });
       return;
     }
 
+    // Simulate deletion logic
     console.log(`Removing lab test with name: ${name}`);
-    
-    Alert.alert("Success", "Lab test removed successfully!", [
-      {
-        text: "OK",
-        onPress: () => navigation.navigate('AdminDashboard'),
-      },
-    ]);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Lab test removed successfully!',
+    });
+
+    setTimeout(() => {
+      setName(''); // Reset the form
+      navigation.navigate('AdminDashboard');
+    }, 1200);
   };
 
   return (
@@ -71,7 +78,6 @@ const RemoveLabTest = () => {
               <Text style={styles.shrunkButtonText}>Remove</Text>
             </TouchableOpacity>
 
-            {/* Spacer before the bottom nav */}
             <View style={styles.footerSpacer} />
           </View>
         </View>

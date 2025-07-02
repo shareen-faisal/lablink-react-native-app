@@ -1,11 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform, SafeAreaView, ScrollView,
-    StyleSheet, Text, View
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import FormTitle from '../components/FormTitle';
 import PasswordInput from '../components/PasswordInput';
@@ -24,21 +28,29 @@ const ChangePassword = () => {
 
   const handleSave = () => {
     if (!oldPassword || !newPassword || !confirmNewPassword) {
-      Alert.alert('All fields must be filled!');
+      Toast.show({
+        type: 'error',
+        text1: 'All fields must be filled!',
+      });
       return;
     }
 
     if (newPassword !== confirmNewPassword) {
-      Alert.alert('New passwords do not match!');
+      Toast.show({
+        type: 'error',
+        text1: 'New passwords do not match!',
+      });
       return;
     }
 
-    Alert.alert('Password changed successfully!', '', [
-      {
-        text: 'OK',
-        onPress: () => navigation.navigate('Profile'),
-      },
-    ]);
+    Toast.show({
+      type: 'success',
+      text1: 'Password changed successfully!',
+    });
+
+    setTimeout(() => {
+      navigation.navigate('Profile');
+    }, 1300);
   };
 
   const handleBack = () => {
@@ -57,13 +69,9 @@ const ChangePassword = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* 🔙 Back button */}
-          {/* <BackButton onPress={handleBack} /> */}
 
-          {/* 🔵 Header Title */}
           <Text style={styles.header}>Change Password</Text>
 
-          {/* 🔽 Form */}
           <View style={styles.formWrapper}>
             <FormTitle title="Change Password" />
 
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   formWrapper: {
-    marginTop: 10, // Adjusted spacing after header
+    marginTop: 10,
   },
   buttonWrapper: {
     marginTop: 30,

@@ -1,10 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-    Alert, KeyboardAvoidingView,
-    Platform,
-    SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import CategoryDropdown from '../components/CategoryDropdown';
 import FormInput from '../components/FormInput';
@@ -24,24 +31,72 @@ const AddLabTest = () => {
 
   const navigation = useNavigation();
 
-  const handleAdd = () => {
-    // Logic for saving can go here (e.g. API call)
+  const resetForm = () => {
+    setName('');
+    setPrice('');
+    setTurnAroundTime('');
+    setSampleType('');
+    setSampleRequired(false);
+    setCategory('');
+    setDescription('');
+  };
 
-    Alert.alert('Success', 'Lab Test added successfully!', [
-      {
-        text: 'OK',
-        onPress: () => navigation.navigate('AdminDashboard'),
-      },
-    ]);
+  const validateForm = () => {
+    if (!name || !price || !turnAroundTime || !category) {
+      Toast.show({
+        type: 'error',
+        text1: 'Please fill all required fields!',
+      });
+      return false;
+    }
+
+    if (isNaN(price)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Price must be a number!',
+      });
+      return false;
+    }
+
+    if (isNaN(turnAroundTime)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Turnaround time must be numeric!',
+      });
+      return false;
+    }
+
+    if (sampleRequired && !sampleType.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: 'Please specify sample type!',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleAdd = () => {
+    if (!validateForm()) return;
+
+    Toast.show({
+      type: 'success',
+      text1: 'Lab Test added successfully!',
+    });
+
+    setTimeout(() => {
+      resetForm();
+      navigation.navigate('AdminDashboard');
+    }, 1200);
   };
 
   const handleWhiteTap = () => {
-    navigation.goBack(); // or navigation.navigate('AdminDashboard');
+    navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Touchable area above form (white section) */}
       <TouchableWithoutFeedback onPress={handleWhiteTap}>
         <View style={styles.whiteHeaderArea}>
           <PageHeader />
@@ -106,7 +161,6 @@ const AddLabTest = () => {
               style={styles.descriptionBox}
             />
 
-            {/* Shrunk Add Button */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.shrunkButton} onPress={handleAdd}>
                 <Text style={styles.shrunkButtonText}>Add</Text>
@@ -115,7 +169,6 @@ const AddLabTest = () => {
           </View>
         </ScrollView>
 
-        {/* Spacer for visual footer (for nav bar) */}
         <View style={styles.footerSpacer} />
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -172,7 +225,5 @@ const styles = StyleSheet.create({
   footerSpacer: {
     height: 50,
     backgroundColor: '#3b7cff',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
   },
 });

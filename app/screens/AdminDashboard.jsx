@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import Toast from 'react-native-toast-message';
 import DashboardButton from '../components/DashboardButton';
 import DashboardHeader from '../components/DashboardHeader';
 
@@ -17,8 +18,15 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
+  Toast.show({
+    type: 'success',
+    text1: 'Logged out successfully!',
+  });
+
+  setTimeout(() => {
     navigation.navigate('Welcome');
-  };
+  }, 1200);
+};
 
   return (
     <View style={styles.container}>
