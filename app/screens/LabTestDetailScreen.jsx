@@ -257,7 +257,7 @@ const generateDates = () => {
     });
   }
 
-  return dates; // ✅ This return is correct: inside generateDates
+  return dates;
 };
 
 // generate once when component renders
@@ -380,10 +380,9 @@ const isSameDay = (d1, d2) => (
                 <View style={styles.sectionView}>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                       {dateOptions.map((date, index) => (
-                        <Pressable  key={index}  onPress={() => handleSelectDate(date.dateObj)}  style={[
-      styles.slotCard,
-      selectedDate && isSameDay(selectedDate, date.dateObj) && styles.selectedSlot
-    ]}>
+                        <Pressable  key={index}  onPress={() => handleSelectDate(date.dateObj)}  style={[styles.slotCard,
+                          selectedDate && isSameDay(selectedDate, date.dateObj) && styles.selectedSlot
+                         ]}>
                           <Text  style={[
         styles.slotText,
         selectedDate && isSameDay(selectedDate, date.dateObj) && styles.selectedText
@@ -394,8 +393,9 @@ const isSameDay = (d1, d2) => (
                       ))}
                     </ScrollView>
                 </View>
-
-                    <Text style={styles.sectionHeading}>Select Time</Text>
+                  {selectedDate && ( 
+                    <>
+                       <Text style={styles.sectionHeading}>Select Time</Text>
                       <View style={styles.sectionView}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                           {availableSlots.map((time, index) => (
@@ -406,6 +406,9 @@ const isSameDay = (d1, d2) => (
 
                         </ScrollView>
                     </View>
+                    </>
+                  )}
+                   
                   </View>
 
             )} 

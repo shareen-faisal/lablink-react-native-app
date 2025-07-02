@@ -1,9 +1,10 @@
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import OrderSummary from './OrderSummary';
 import Toast from 'react-native-toast-message';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { CartContext } from '../components/CartContext';
+import OrderSummary from './OrderSummary';
 
 const { width, height } = Dimensions.get('window');
 
@@ -115,6 +116,7 @@ const CheckoutScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [street, setStreet] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
+    const {clearCart} = useContext(CartContext)
 
     const cities = ['Gujranwala','Karachi', 'Lahore', 'Islamabad'];
 
@@ -148,6 +150,7 @@ const CheckoutScreen = ({navigation}) => {
 
       setSelectedCity('');
       setStreet('');
+      clearCart();
     }
     
 
@@ -172,10 +175,11 @@ const CheckoutScreen = ({navigation}) => {
             </View>
 
             <View style={styles.pickerBox}>
-                <Picker selectedValue={selectedCity} onValueChange={(itemValue) => setSelectedCity(itemValue)} style={styles.picker} >
-                {/* <Picker.Item label="Select City" value="" /> */}
+
+                <Picker  selectedValue={selectedCity} onValueChange={(itemValue) => setSelectedCity(itemValue)} style={styles.picker}  >
+                <Picker.Item label="Select City" value="" enabled={false} color="#9CA3AF" />
                 {cities.map((city, index) => (
-                    <Picker.Item key={index} label={city} value={city} />
+                    <Picker.Item key={index} label={city} value={city}   color="#000000" />
                 ))}
                 </Picker>
             </View>
