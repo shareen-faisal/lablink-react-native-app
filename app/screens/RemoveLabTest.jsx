@@ -41,10 +41,10 @@ const RemoveLabTest = () => {
       text1: 'Lab test removed successfully!',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       setName(''); // Reset the form
       navigation.navigate('AdminDashboard');
-    }, 1200);
+    // }, 1200);
   };
 
   return (

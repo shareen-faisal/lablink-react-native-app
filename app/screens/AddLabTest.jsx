@@ -9,7 +9,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -85,10 +85,10 @@ const AddLabTest = () => {
       text1: 'Lab Test added successfully!',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       resetForm();
       navigation.navigate('AdminDashboard');
-    }, 1200);
+    // }, 1200);
   };
 
   const handleWhiteTap = () => {

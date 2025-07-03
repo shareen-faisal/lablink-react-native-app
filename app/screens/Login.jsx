@@ -30,19 +30,19 @@ const Customer_Login = () => {
         type: 'success',
         text1: 'Welcome Admin!',
       });
-      setTimeout(() => {
+      // setTimeout(() => {
         navigation.navigate('AdminStack', {
           screen: 'AdminDashboard',
         });
-      }, 1200);
+      // }, 1200);
     } else {
       Toast.show({
         type: 'success',
         text1: 'Login Successful!',
       });
-      setTimeout(() => {
+      // setTimeout(() => {
         navigation.navigate('BottomTab');
-      }, 1200);
+      // }, 1200);
     }
   };
 

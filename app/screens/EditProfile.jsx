@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  View,
+  View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -41,9 +41,9 @@ const ProfileView = () => {
       text1: 'Profile updated successfully!',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       navigation.navigate('Profile');
-    }, 1300);
+    // }, 1300);
   };
 
   const handleBack = () => {

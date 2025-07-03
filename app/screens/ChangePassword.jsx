@@ -7,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -48,9 +48,9 @@ const ChangePassword = () => {
       text1: 'Password changed successfully!',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       navigation.navigate('Profile');
-    }, 1300);
+    // }, 1300);
   };
 
   const handleBack = () => {

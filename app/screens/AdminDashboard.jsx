@@ -23,9 +23,9 @@ const AdminDashboard = () => {
     text1: 'Logged out successfully!',
   });
 
-  setTimeout(() => {
+  // setTimeout(() => {
     navigation.navigate('Welcome');
-  }, 1200);
+  // }, 1200);
 };
 
   return (

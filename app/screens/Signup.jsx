@@ -42,9 +42,9 @@ const Customer_Signup = () => {
       text1: 'Signed up successfully!',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       navigation.navigate('Login');
-    }, 1500);
+    // }, 1500);
   };
 
   const handleLoginNavigate = () => {
