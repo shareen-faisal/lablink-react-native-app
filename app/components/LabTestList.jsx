@@ -7,7 +7,7 @@ export default function LabTestList({data,onPress}) {
   return (
     <View style={styles.container} >
 
-      {data.length===0 ? <View style={styles.emptyContainer} ><Text style={styles.emptyText} >No lab test in this category</Text></View> : (
+      {data.length===0 ? <View style={styles.emptyContainer} ><Text style={styles.emptyText} >No lab test found</Text></View> : (
 
             <FlatList data={data} keyExtractor={(item)=>(item.id)} renderItem={({item})=>(
               <LabTestBox name={item.name} price={item.price} image={item.image} onPress={onPress} />

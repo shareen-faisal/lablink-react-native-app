@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   backButtonWrapper: {
-    marginTop: 50,
+    marginTop: 10,
   },
   content: {
     flex: 1,
