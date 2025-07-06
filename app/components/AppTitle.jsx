@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 const AppTitle = () => {
-  return <Text style={styles.title}>Health Hub</Text>;
+  return <Text style={styles.title}>Lab Link</Text>;
 };
 
 export default AppTitle;

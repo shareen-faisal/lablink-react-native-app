@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 
 const Subtitle = () => {
   return (
-    <Text style={styles.subtitle}>Connecting you to better health.</Text>
+    <Text style={styles.subtitle}>Book. Test. Relax.</Text>
   );
 };
 
