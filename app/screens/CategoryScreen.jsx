@@ -48,6 +48,7 @@ export default function CategoryScreen({navigation,route}) {
 
       const labtest = 
       {
+        id:1,
         name: "Hb",
         price: 100,
         description: "Custom logo design with 3 initial concepts",

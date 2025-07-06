@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useContext } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { CartContext } from '../components/CartContext'; // Assuming this path is correct
+import { CartContext } from '../components/CartContext';
 
 const { width, height } = Dimensions.get('window');
 
@@ -216,6 +216,18 @@ const CartScreen = ({ route, navigation }) => {
     
     const fixedFooterHeight = height * 0.18; 
 
+    const labtestTemp = 
+    {
+      id:1,
+      name: "Hb",
+      price: 100,
+      description: "Custom logo design with 3 initial concepts",
+      sampleRequired: "Client must provide design inspiration or references",
+      turnaroundTime: "3 days",
+      gender: "This test is for both genders",
+      image: "https://https://www.istockphoto.com/vector/drop-gm1081786788-290097354.com/images/logo-design.png"
+    }
+
     return (
         <View style={styles.container}>
             {cart.length === 0 ? (
@@ -252,7 +264,7 @@ const CartScreen = ({ route, navigation }) => {
                                 key={`${labTest.id}-${labTest.date}-${labTest.time}`}
                                 onPress={() => navigation.navigate('HomeTab', {
                                     screen: 'LabTestDetails',
-                                    params: { labTestId: labTest.id }
+                                    params: labtestTemp 
                                 })}
                                 style={styles.cartItemContainer}
                             >
@@ -297,7 +309,7 @@ const CartScreen = ({ route, navigation }) => {
 
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Items</Text>
-                                <Text style={styles.summaryValue}>{cart.length}</Text>
+                                <Text style={styles.summaryValue}>{cart.reduce((total,item)=>(total+item.quantity),0)}</Text>
                             </View>
 
                             <View style={styles.summaryRow}>
@@ -312,7 +324,6 @@ const CartScreen = ({ route, navigation }) => {
                         </View>
                     </ScrollView>
 
-                    {/* Fixed Footer - only Total and Checkout button */}
                     <View style={styles.fixedFooterContainer}>
                         <View style={styles.totalRow}>
                             <Text style={styles.totalLabel}>Total</Text>

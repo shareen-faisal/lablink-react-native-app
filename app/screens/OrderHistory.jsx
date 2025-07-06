@@ -22,13 +22,13 @@ const OrderHistory = () => {
     header: {
       fontSize: 24,
       fontWeight: 'bold',
-      color: '#3b7cff',
+      color: 'black',
       marginTop: 8,
       marginBottom: 15,
       textAlign: 'center',
     },
     cardWrapper: {
-      marginTop: 30, // 🟦 Adds space between header and card
+      marginTop: 30, 
       paddingBottom: 20,
     },
   });

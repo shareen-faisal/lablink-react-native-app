@@ -192,7 +192,7 @@ const LabTestDetailScreen = ({route}) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
 
-  const [ quantity, setQuantity] = useState(1);  //new
+  const [ quantity, setQuantity] = useState(1); 
   const [labTest, setLabTest] = useState(route.params);
   const [showDateTimeSlots, setShowDateTimeSlots] = useState(false);
 
@@ -260,7 +260,6 @@ const generateDates = () => {
   return dates;
 };
 
-// generate once when component renders
 const dateOptions = generateDates();
 
 
@@ -330,7 +329,7 @@ const isSameDay = (d1, d2) => (
 
                 <View>
                     <Text style={styles.name}>{labTest.name}</Text>
-                    <Text style={styles.price}>{labTest.price}</Text>
+                    <Text style={styles.price}>Rs{labTest.price}</Text>
                     <Text style={styles.gender}>{labTest.gender}</Text>
                    
                 </View>

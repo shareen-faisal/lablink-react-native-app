@@ -18,13 +18,12 @@ import ProfileHeader from '../components/ProfileHeader';
 const ProfileView = () => {
   const navigation = useNavigation();
 
-  // Simulated current user info (replace with real data or context)
   const currentName = 'Moazam Attiq';
   const currentUsername = 'the_moazam14';
   const currentContact = '03047018018';
 
   const [name, setName] = useState(currentName);
-  const [username] = useState(currentUsername); // Read-only
+  const [username] = useState(currentUsername); 
   const [contact, setContact] = useState(currentContact);
 
   const handleSave = () => {
@@ -77,7 +76,7 @@ const ProfileView = () => {
             icon="person-outline"
             placeholder={currentUsername}
             value={username}
-            editable={false} // 🔒 Disable editing
+            editable={false} 
           />
 
           <IconInput
