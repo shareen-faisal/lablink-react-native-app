@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-    FlatList, Modal, StyleSheet, Text, TouchableOpacity, View
+  FlatList, Modal, StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 
 const CategoryDropdown = ({ selected, onSelect }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const categories = ['Blood Test', 'Liver Function Test', 'Heart Health Test','Diabetes Test'];
+  const categories = ['Blood Tests', 'Diabetes Tests', 'Heart Health Tests', 'Liver Function Tests' , 'Kidney Tests'];
 
   return (
     <>
