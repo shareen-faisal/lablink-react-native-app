@@ -1,3 +1,6 @@
+import { db } from '../../services/backend';
+import { ref, push } from 'firebase/database';
+
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
@@ -77,19 +80,41 @@ const AddLabTest = () => {
     return true;
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!validateForm()) return;
 
-    Toast.show({
-      type: 'success',
-      text1: 'Lab Test added successfully!',
-    });
+    const labTestData = {
+      name,
+      price,
+      turnAroundTime,
+      sampleType: sampleRequired ? sampleType : 'N/A',
+      sampleRequired,
+      category,
+      description,
+      createdAt: new Date().toISOString()
+    };
 
-    // setTimeout(() => {
+    try {
+      await push(ref(db, 'labTests/'), labTestData);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Lab Test added successfully!',
+      });
+
       resetForm();
       navigation.navigate('AdminDashboard');
-    // }, 1200);
+    } catch (error) {
+      console.error("Firebase Error: ", error);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong!',
+        text2: 'Unable to save lab test.',
+      });
+    }
   };
+
 
   const handleWhiteTap = () => {
     navigation.goBack();

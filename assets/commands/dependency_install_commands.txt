@@ -9,3 +9,4 @@ npm install react-native-toast-message
 npm install react-native-vector-icons
 npm install react-native-webview
 npm install expo-linear-gradient
+npm install firebase
