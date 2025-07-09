@@ -1,8 +1,6 @@
-import { db } from '../../services/backend';
-import { ref, push } from 'firebase/database';
-
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { BASE_URL } from '../../config';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -83,19 +81,25 @@ const AddLabTest = () => {
   const handleAdd = async () => {
     if (!validateForm()) return;
 
-    const labTestData = {
-      name,
-      price,
-      turnAroundTime,
-      sampleType: sampleRequired ? sampleType : 'N/A',
-      sampleRequired,
-      category,
-      description,
-      createdAt: new Date().toISOString()
-    };
-
     try {
-      await push(ref(db, 'labTests/'), labTestData);
+      const response = await fetch(`${BASE_URL}/labTests.json`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          turnAroundTime,
+          sampleType: sampleRequired ? sampleType : '',
+          sampleRequired,
+          category,
+          description,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to add lab test');
 
       Toast.show({
         type: 'success',
@@ -104,17 +108,15 @@ const AddLabTest = () => {
 
       resetForm();
       navigation.navigate('AdminDashboard');
-    } catch (error) {
-      console.error("Firebase Error: ", error);
 
+    } catch (error) {
+      console.error(error);
       Toast.show({
         type: 'error',
-        text1: 'Something went wrong!',
-        text2: 'Unable to save lab test.',
+        text1: 'Something went wrong. Please try again.',
       });
     }
   };
-
 
   const handleWhiteTap = () => {
     navigation.goBack();
@@ -140,12 +142,7 @@ const AddLabTest = () => {
           <View style={styles.formContainer}>
             <FormTitle title="Add Lab Test" />
 
-            <FormInput
-              label="Name"
-              placeholder="Enter name"
-              value={name}
-              onChangeText={setName}
-            />
+            <FormInput label="Name" value={name} onChangeText={setName} placeholder="Enter name" />
 
             <HalfInputRow
               leftLabel="Price"
@@ -158,10 +155,10 @@ const AddLabTest = () => {
 
             <FormInput
               label="Sample Type"
-              placeholder="Enter sample type"
               value={sampleType}
               onChangeText={setSampleType}
               editable={sampleRequired}
+              placeholder="Enter sample type"
               style={!sampleRequired && { backgroundColor: '#ddd' }}
             />
 
@@ -170,7 +167,7 @@ const AddLabTest = () => {
               value={sampleRequired}
               onToggle={() => {
                 setSampleRequired(!sampleRequired);
-                if (sampleRequired) setSampleType('');
+                if (!sampleRequired) setSampleType('');
               }}
             />
 
@@ -178,11 +175,11 @@ const AddLabTest = () => {
 
             <FormInput
               label="Description"
-              placeholder="Enter detailed description"
               value={description}
               onChangeText={setDescription}
-              multiline={true}
+              multiline
               numberOfLines={4}
+              placeholder="Enter detailed description"
               style={styles.descriptionBox}
             />
 
@@ -193,7 +190,6 @@ const AddLabTest = () => {
             </View>
           </View>
         </ScrollView>
-
         <View style={styles.footerSpacer} />
       </KeyboardAvoidingView>
     </SafeAreaView>

@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { BASE_URL } from '../../config';
 import {
   SafeAreaView, StyleSheet, Text, TouchableOpacity, View,
   KeyboardAvoidingView, Platform, TouchableWithoutFeedback,
@@ -11,30 +12,29 @@ import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
 import PageHeader from '../components/PageHeader';
 
-import {
-  db,
-  ref,
-  onValue,
-  remove
-} from '../../services/backend';
-
 const RemoveLabTest = () => {
   const [name, setName] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [labTests, setLabTests] = useState([]);
-
   const navigation = useNavigation();
 
-  // Load lab tests from Firebase
-  useEffect(() => {
-    const testsRef = ref(db, 'labTests');
-    const unsubscribe = onValue(testsRef, (snapshot) => {
-      const data = snapshot.val();
-      const list = data ? Object.entries(data).map(([id, val]) => ({ id, ...val })) : [];
-      setLabTests(list);
-    });
+  const labTestsURL = `${BASE_URL}/labTests.json`;
 
-    return () => unsubscribe(); // clean up listener
+  useEffect(() => {
+    fetch(labTestsURL)
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          const list = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+          setLabTests(list);
+        }
+      })
+      .catch(() => {
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to load lab tests.',
+        });
+      });
   }, []);
 
   const handleWhiteTap = () => {
@@ -62,7 +62,7 @@ const RemoveLabTest = () => {
     setSuggestions([]);
   };
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
     const inputName = name.trim().toLowerCase();
     const match = labTests.find(
       (test) => test.name?.toLowerCase() === inputName
@@ -76,22 +76,30 @@ const RemoveLabTest = () => {
       return;
     }
 
-    remove(ref(db, `labTests/${match.id}`))
-      .then(() => {
-        Toast.show({
-          type: 'success',
-          text1: 'Lab test removed successfully!',
-        });
-        setName('');
-        setSuggestions([]);
-        navigation.navigate('AdminDashboard');
-      })
-      .catch(() => {
-        Toast.show({
-          type: 'error',
-          text1: 'Failed to remove lab test.',
-        });
+    try {
+      const deleteUrl = `${BASE_URL}/labTests/${match.id}.json`;
+
+      const res = await fetch(deleteUrl, {
+        method: 'DELETE',
       });
+
+      if (!res.ok) throw new Error();
+
+      Toast.show({
+        type: 'success',
+        text1: 'Lab test removed successfully!',
+      });
+
+      setName('');
+      setSuggestions([]);
+      navigation.navigate('AdminDashboard');
+
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to remove lab test.',
+      });
+    }
   };
 
   return (
