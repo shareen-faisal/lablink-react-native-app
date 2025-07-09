@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useContext, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CartContext } from '../components/CartContext';
@@ -155,7 +155,7 @@ const CheckoutScreen = ({navigation}) => {
     
 
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text style={styles.heading}>Checkout</Text>
 
            
@@ -191,7 +191,6 @@ const CheckoutScreen = ({navigation}) => {
                 <Text style={styles.paymentText}>Cash on Delivery</Text>
             </View>
 
-            {/* Order Summary Box */}
             <View style={styles.summaryBox}>
                 <Text style={styles.summaryTitle}>Order Summary</Text>
 
@@ -224,7 +223,7 @@ const CheckoutScreen = ({navigation}) => {
             </Pressable>
 
             <OrderSummary visible={modalVisible} onClose={()=>setModalVisible(false)} navigation={navigation} />
-    </View>
+    </ScrollView>
 
     )
 }

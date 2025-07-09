@@ -81,8 +81,12 @@ const OrderSummary = ({ visible, onClose, navigation }) => {
 
   const handleContinue = () => {
     onClose();
-    navigation.navigate('HomeTab', {
-      screen: 'Home',
+    // navigation.navigate('HomeTab', {
+    //   screen: 'Home',
+    // });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeTab' }],
     });
   };
   
