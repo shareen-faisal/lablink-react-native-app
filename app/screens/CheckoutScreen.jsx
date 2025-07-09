@@ -5,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { CartContext } from '../components/CartContext';
 import OrderSummary from './OrderSummary';
+import { BASE_URL } from '../../config';
 
 const { width, height } = Dimensions.get('window');
 
@@ -113,14 +114,15 @@ const styles = StyleSheet.create({
 
 
 const CheckoutScreen = ({navigation}) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [street, setStreet] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
-    const {clearCart} = useContext(CartContext)
 
-    const cities = ['Gujranwala','Karachi', 'Lahore', 'Islamabad'];
+  const [modalVisible, setModalVisible] = useState(false);
+  const [street, setStreet] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const {clearCart, total, subTotal, cart} = useContext(CartContext)
 
-    const handleSubmit = () => {
+  const cities = ['Gujranwala','Karachi', 'Lahore', 'Islamabad'];
+
+    const handleSubmit = async () => {
 
       if(!street && !selectedCity){
         Toast.show({
@@ -146,12 +148,52 @@ const CheckoutScreen = ({navigation}) => {
         return;
       }
 
-      setModalVisible(true)
+      const counterRes = await fetch(`${BASE_URL}/orderCounter/lastOrderNumber.json`);
+      const lastOrderNumber = await counterRes.json();
+      const newOrderNumber = (lastOrderNumber || 99) + 1; 
 
-      setSelectedCity('');
-      setStreet('');
-      clearCart();
-    }
+      const order = {
+        orderNumber : newOrderNumber,
+        address: street,
+        city : selectedCity,
+        orderDate: new Date().toLocaleDateString(),
+        orderTime: new Date().toLocaleTimeString(),
+        items: cart.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          date: item.date.toLocaleDateString(),
+          time: item.time,
+        })),
+          subtotal: subTotal,
+          deliveryCharges: 150,
+          total: total,
+          status: 'pending',
+      }
+
+      const response = await fetch(`${BASE_URL}/Orders.json`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+           'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+      })
+
+      if(response.ok){
+        setModalVisible(true)
+        setSelectedCity('');
+        setStreet('');
+        clearCart();
+      }else{
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to place order',
+        });
+      }
+
+    }//
     
 
     return(
@@ -196,12 +238,12 @@ const CheckoutScreen = ({navigation}) => {
 
                 <View style={styles.summaryContent}>
                     <Text>Items</Text>
-                    <Text>1</Text>
+                    <Text>{cart.length}</Text>
                 </View>
 
                 <View style={styles.summaryContent}>
                     <Text>Subtotal</Text>
-                    <Text>Rs 467</Text>
+                    <Text>Rs {subTotal}</Text>
                 </View>
 
                 <View style={styles.summaryContent}>
@@ -213,7 +255,7 @@ const CheckoutScreen = ({navigation}) => {
 
                 <View style={styles.summaryContent}>
                 <Text style={styles.totalText}>Total</Text>
-                <Text style={styles.totalText}>Rs 617</Text>
+                <Text style={styles.totalText}>Rs {total}</Text>
                 </View>
             </View>
 
