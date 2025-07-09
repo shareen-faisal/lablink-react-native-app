@@ -5,7 +5,6 @@ const PageHeader = () => (
   <>
     <Text style={styles.header}>Admin Dashboard</Text>
     <Text style={styles.greeting}>
-      {/* Hello! <Text style={styles.bold}>Admin</Text> */}
     </Text>
   </>
 );
