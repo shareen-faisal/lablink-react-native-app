@@ -7,8 +7,9 @@ import {
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { FIREBASE_AUTH_SIGNIN_URL } from '../../config';
+import { BASE_URL, FIREBASE_AUTH_SIGNIN_URL } from '../../config';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
 import BottomSignupText from '../components/BottomSignupText';
@@ -55,12 +56,21 @@ const Customer_Login = () => {
       }
 
       // Store user token & ID in AsyncStorage
+      const { localId, email: userEmail, idToken } = data;
       const role = data.email === ADMIN_EMAIL ? 'admin' : 'user';
 
+      const dbResponse = await fetch(`${BASE_URL}/users/${localId}/username.json?auth=${idToken}`);
+
+      const username = await dbResponse.json();
+
+      if (!username) {
+        throw new Error('Username not found in database');
+      }
       await AsyncStorage.setItem('userRole', role);
-      await AsyncStorage.setItem('userToken', data.idToken);
-      await AsyncStorage.setItem('userId', data.localId);
-      await AsyncStorage.setItem('userEmail', data.email);
+      await AsyncStorage.setItem('userToken', idToken);
+      await AsyncStorage.setItem('userId', localId);
+      await AsyncStorage.setItem('userEmail', userEmail);
+      await AsyncStorage.setItem('username', username);
 
       Toast.show({ 
         type: 'success',
@@ -79,8 +89,7 @@ const Customer_Login = () => {
       setLoading(false);
       Toast.show({
         type: 'error',
-        text1: 'Authentication Failed',
-        text2: err.message,
+        text1: err.message,
       });
     }
   };
@@ -94,7 +103,7 @@ const Customer_Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.backButtonWrapper}>
         <BackButton onPress={handleBack} />
       </View>
@@ -125,7 +134,7 @@ const Customer_Login = () => {
 
         <BottomSignupText onPress={handleSignup} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -133,12 +142,16 @@ export default Customer_Login;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
     padding: 24,
     backgroundColor: '#fff',
   },
   backButtonWrapper: {
-    marginTop: 10,
+    position: 'absolute',
+    left: 20,
+    top: 20,
+    zIndex:999,
   },
   content: {
     flex: 1,

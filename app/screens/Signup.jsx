@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { FIREBASE_AUTH_SIGNUP_URL, BASE_URL } from '../../config';
+import { BASE_URL, FIREBASE_AUTH_SIGNUP_URL } from '../../config';
 
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
@@ -20,6 +20,7 @@ const Customer_Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [hideConfirmPass, setHideConfirmPass] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const submitHandler = async () => {
     if (!username || !email || !password || !confirmPassword) {
@@ -38,6 +39,7 @@ const Customer_Signup = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const response = await fetch(FIREBASE_AUTH_SIGNUP_URL, {
         method: 'POST',
@@ -70,16 +72,17 @@ const Customer_Signup = () => {
         type: 'success',
         text1: 'Signed up successfully!',
       });
-
-      // setTimeout(() => {
-        navigation.navigate('Login');
-      // }, 1500);
+      setLoading(false);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
     } catch (error) {
       Toast.show({
-
         type: 'error',
         text1: error.message,
       });
+      setLoading(false);
     }
   };
 
@@ -131,7 +134,11 @@ const Customer_Signup = () => {
           placeholder="Confirm password"
         />
 
-        <PrimaryButton title="Sign Up" onPress={submitHandler} />
+        {loading ? (
+          <ActivityIndicator size={'large'} color={'#3b7cff'}/>
+        ) : (
+          <PrimaryButton title="Sign Up" onPress={submitHandler} />
+        )}
 
         <BottomLoginText onPress={handleLoginNavigate} />
       </View>
@@ -148,7 +155,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   backButtonWrapper: {
-    marginTop: 10,
+    top: 20,
+    left: 20,
+    zIndex:999,
+    position: 'absolute',
   },
   content: {
     flex: 1,

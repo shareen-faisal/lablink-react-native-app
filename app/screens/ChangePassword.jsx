@@ -1,6 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -11,6 +13,7 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 
+import { FIREBASE_AUTH_CHANGEPASSWORD_URL, FIREBASE_AUTH_SIGNIN_URL } from '@/config';
 import FormTitle from '../components/FormTitle';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
@@ -23,10 +26,11 @@ const ChangePassword = () => {
   const [hideOld, setHideOld] = useState(true);
   const [hideNew, setHideNew] = useState(true);
   const [hideConfirm, setHideConfirm] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!oldPassword || !newPassword || !confirmNewPassword) {
       Toast.show({
         type: 'error',
@@ -43,14 +47,70 @@ const ChangePassword = () => {
       return;
     }
 
-    Toast.show({
-      type: 'success',
-      text1: 'Password changed successfully!',
-    });
+    setLoading(true);
 
-    // setTimeout(() => {
-      navigation.navigate('Profile');
-    // }, 1300);
+    try {
+      const email = await AsyncStorage.getItem('userEmail');
+      if (!email) {
+        throw new Error("User email not found!");
+      }
+      
+      const signInResponse = await fetch(FIREBASE_AUTH_SIGNIN_URL, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password: oldPassword,
+          returnSecureToken: true,
+        }),
+      });
+
+      const signInData = await signInResponse.json();
+
+      if (!signInResponse.ok) {
+        throw new Error(signInData.error?.message || 'Re-authentication failed');
+      }
+      const idToken = signInData.idToken;
+
+      const changePasswordResponse = await fetch(FIREBASE_AUTH_CHANGEPASSWORD_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idToken,
+          password: newPassword,
+          returnSecureToken: true,
+        }),
+      });
+
+      const changePasswordData = changePasswordResponse.json();
+      
+      if (!changePasswordResponse.ok) {
+        throw new Error(changePasswordData.error?.message || 'Password update failed');
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Password changed successfully!',
+      });
+
+      // Logout user after password is changed
+      await AsyncStorage.clear();
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Welcome' }],
+      });
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBack = () => {
@@ -100,7 +160,11 @@ const ChangePassword = () => {
             />
 
             <View style={styles.buttonWrapper}>
-              <PrimaryButton title="Save Changes" onPress={handleSave} />
+              {loading ? (
+                <ActivityIndicator size="large" color="#3b7cff" />
+              ) : (
+                <PrimaryButton title="Save Changes" onPress={handleSave} />
+              )}
             </View>
           </View>
         </ScrollView>
