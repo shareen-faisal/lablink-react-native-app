@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -17,16 +18,18 @@ const AdminDashboard = () => {
     navigation.navigate('Remove');
   };
 
-  const handleLogout = () => {
-  Toast.show({
-    type: 'success',
-    text1: 'Logged out successfully!',
-  });
+  const handleLogout = async () => {
+    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail']);
+    Toast.show({
+      type: 'success',
+      text1: 'Logged out successfully!',
+    });
 
-  // setTimeout(() => {
-    navigation.navigate('Welcome');
-  // }, 1200);
-};
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Welcome' }],
+    });
+  };
 
   return (
     <View style={styles.container}>

@@ -1,10 +1,29 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 
 const ProfileDetails = () => {
   const navigation = useNavigation();
+
+  const handleLogout = async () => {
+    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail']);
+    Toast.show({
+      type: 'success',
+      text1: 'Logged out successfully!',
+    });
+
+    setTimeout(() => {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Welcome' }],
+      });
+    }, 500); // short delay for AsyncStorage
+
+  }
 
   const details = [
     {
@@ -23,7 +42,7 @@ const ProfileDetails = () => {
       icon: 'log-out-outline',
       label: 'Logout',
       editable: false,
-      action: () => navigation.navigate('Welcome'),
+      action: handleLogout,
     },
   ];
 

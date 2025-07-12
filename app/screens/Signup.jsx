@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { FIREBASE_AUTH_SIGNUP_URL, BASE_URL } from '../../config';
 
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
@@ -14,14 +15,14 @@ const Customer_Signup = () => {
   const navigation = useNavigation();
 
   const [username, setUsername] = useState('');
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [hideConfirmPass, setHideConfirmPass] = useState(true);
 
-  const submitHandler = () => {
-    if (!username || !phone || !password || !confirmPassword) {
+  const submitHandler = async () => {
+    if (!username || !email || !password || !confirmPassword) {
       Toast.show({
         type: 'error',
         text1: 'All fields are required!',
@@ -37,14 +38,49 @@ const Customer_Signup = () => {
       return;
     }
 
-    Toast.show({
-      type: 'success',
-      text1: 'Signed up successfully!',
-    });
+    try {
+      const response = await fetch(FIREBASE_AUTH_SIGNUP_URL, {
+        method: 'POST',
+        headers : {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+      });
+      
+      
+      const data = await response.json();
+      
+      await fetch(`${BASE_URL}/users/${data.localId}.json`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email }),
+      });
+      if (!response.ok) {
+        const errorMessage = data.error?.message || 'Something went wrong!';
+        throw new Error(errorMessage);
+      }
 
-    // setTimeout(() => {
-      navigation.navigate('Login');
-    // }, 1500);
+      Toast.show({
+        type: 'success',
+        text1: 'Signed up successfully!',
+      });
+
+      // setTimeout(() => {
+        navigation.navigate('Login');
+      // }, 1500);
+    } catch (error) {
+      Toast.show({
+
+        type: 'error',
+        text1: error.message,
+      });
+    }
   };
 
   const handleLoginNavigate = () => {
@@ -57,7 +93,6 @@ const Customer_Signup = () => {
 
   return (
     <View style={styles.container}>
-      {/* 👇 Same back button spacing as Login screen */}
       <View style={styles.backButtonWrapper}>
         <BackButton onPress={handleBack} />
       </View>
@@ -73,11 +108,11 @@ const Customer_Signup = () => {
         />
 
         <AppInput
-          icon="call-outline"
-          placeholder="Enter your phone number"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
+          icon="mail-outline"
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
         />
 
         <PasswordInput

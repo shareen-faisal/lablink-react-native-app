@@ -1,7 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
+import { FIREBASE_AUTH_SIGNIN_URL } from '../../config';
 
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
@@ -10,13 +16,17 @@ import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
 
+const ADMIN_EMAIL = 'admin@lablink.com';
+
 const Customer_Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation();
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     if (!email || !password) {
       Toast.show({
         type: 'error',
@@ -25,38 +35,66 @@ const Customer_Login = () => {
       return;
     }
 
-    if (email === 'admin' && password === 'admin') {
-      Toast.show({
-        type: 'success',
-        text1: 'Welcome Admin!',
+    setLoading(true);
+
+    try {
+      const response = await fetch(FIREBASE_AUTH_SIGNIN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true,
+        }),
       });
-      // setTimeout(() => {
-        navigation.navigate('AdminStack', {
-          screen: 'AdminDashboard',
-        });
-      // }, 1200);
-    } else {
-      Toast.show({
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Login failed');
+      }
+
+      // Store user token & ID in AsyncStorage
+      const role = data.email === ADMIN_EMAIL ? 'admin' : 'user';
+
+      await AsyncStorage.setItem('userRole', role);
+      await AsyncStorage.setItem('userToken', data.idToken);
+      await AsyncStorage.setItem('userId', data.localId);
+      await AsyncStorage.setItem('userEmail', data.email);
+
+      Toast.show({ 
         type: 'success',
         text1: 'Login Successful!',
+        text2: role === 'admin' ? 'Welcome Admin!' : '',
       });
-      // setTimeout(() => {
+
+      setLoading(false);
+      if (role === 'admin') {
+        navigation.navigate('AdminStack', { screen: 'AdminDashboard' });
+      } else {
         navigation.navigate('BottomTab');
-      // }, 1200);
+        
+      }
+    } catch (err) {
+      setLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: 'Authentication Failed',
+        text2: err.message,
+      });
     }
   };
 
   const handleSignup = () => {
-    navigation.navigate('Signup');
+    navigation.navigate('Signup')
   };
 
   const handleBack = () => {
-    navigation.navigate('Welcome');
+    navigation.goBack()
   };
 
   return (
     <View style={styles.container}>
-      {/* 👇 Back button with margin */}
       <View style={styles.backButtonWrapper}>
         <BackButton onPress={handleBack} />
       </View>
@@ -65,8 +103,8 @@ const Customer_Login = () => {
         <LoginHeader title="Login" />
 
         <AppInput
-          icon="person-outline"
-          placeholder="Enter Username"
+          icon="mail-outline"
+          placeholder="Enter your email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -79,7 +117,11 @@ const Customer_Login = () => {
           setHidePass={setHidePass}
         />
 
-        <PrimaryButton title="Login" onPress={loginHandler} />
+        {loading ? (
+          <ActivityIndicator size="large" color="#3b7cff" style={{ marginTop: 20 }} />
+        ) : (
+          <PrimaryButton title="Login" onPress={loginHandler} />
+        )}
 
         <BottomSignupText onPress={handleSignup} />
       </View>
