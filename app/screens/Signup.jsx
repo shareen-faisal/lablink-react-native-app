@@ -56,21 +56,21 @@ const Customer_Signup = () => {
       
       const data = await response.json();
       
+      if (!response.ok) {
+        const errorMessage = data.error?.message || 'Something went wrong!';
+        throw new Error(errorMessage);
+      }
+      
+      Toast.show({
+        type: 'success',
+        text1: 'Signed up successfully!',
+      });
       await fetch(`${BASE_URL}/users/${data.localId}.json`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, email }),
-      });
-      if (!response.ok) {
-        const errorMessage = data.error?.message || 'Something went wrong!';
-        throw new Error(errorMessage);
-      }
-
-      Toast.show({
-        type: 'success',
-        text1: 'Signed up successfully!',
       });
       setLoading(false);
       navigation.reset({
