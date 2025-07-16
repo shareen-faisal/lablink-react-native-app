@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
 
 const CheckoutScreen = ({navigation}) => {
 
+  const [latestOrder, setLatestOrder] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [street, setStreet] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
@@ -148,9 +149,12 @@ const CheckoutScreen = ({navigation}) => {
         return;
       }
 
-      const counterRes = await fetch(`${BASE_URL}/orderCounter/lastOrderNumber.json`);
-      const lastOrderNumber = await counterRes.json();
-      const newOrderNumber = (lastOrderNumber || 99) + 1; 
+
+      const res = await fetch(`${BASE_URL}/Orders.json`);
+      const orders = await res.json();
+
+      const existingOrderCount = orders ? Object.keys(orders).length : 0;
+      const newOrderNumber = 100 + existingOrderCount;
 
       const order = {
         orderNumber : newOrderNumber,
@@ -182,6 +186,7 @@ const CheckoutScreen = ({navigation}) => {
       })
 
       if(response.ok){
+        setLatestOrder(order)
         setModalVisible(true)
         setSelectedCity('');
         setStreet('');
@@ -264,7 +269,7 @@ const CheckoutScreen = ({navigation}) => {
                 <Text style={styles.confirmButtonText}>Confirm Order</Text>
             </Pressable>
 
-            <OrderSummary visible={modalVisible} onClose={()=>setModalVisible(false)} navigation={navigation} />
+            <OrderSummary visible={modalVisible} onClose={()=>setModalVisible(false)} navigation={navigation} order={latestOrder} />
     </ScrollView>
 
     )
