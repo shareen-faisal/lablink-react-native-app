@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 });
 
 
-const OrderSummary = ({ visible, onClose, navigation }) => {
+const OrderSummary = ({ visible, onClose, navigation, order }) => {
     // const navigation = useNavigation();
 
   //   const handleContinue = () => {
@@ -104,9 +104,9 @@ const OrderSummary = ({ visible, onClose, navigation }) => {
                 <Text style={styles.title}>Thankyou for your Order</Text>
 
                     <View>
-                        <Text style={styles.detailText}>Order Number: 100921</Text>
-                        <Text style={styles.detailText}>Order Date: 2/8/25</Text>
-                        <Text style={styles.detailText}>Order Time: 9:50 PM</Text>
+                        <Text style={styles.detailText}>Order Number: {order?.orderNumber} </Text>
+                        <Text style={styles.detailText}>Order Date: {order?.orderDate}</Text>
+                        <Text style={styles.detailText}>Order Time: {order?.orderTime}</Text>
                     </View>
 
                     <Pressable style={styles.button} onPress={handleContinue}>
