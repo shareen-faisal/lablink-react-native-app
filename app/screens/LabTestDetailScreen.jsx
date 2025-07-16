@@ -346,7 +346,7 @@ const isSameDay = (d1, d2) => (
 
               <View style={{ flexDirection: 'row', alignItems:'center', justifyContent:'space-between', marginTop: height * 0.02 }}>
                 {/* <Text style={styles.quantityHeading}>Quantity</Text> */}
-                  <Text style={styles.pill2}>Time: {labTest.turnAroundTime} {labTest.turnAroundTime===1 ? 'day' : 'days'}</Text>
+                  <Text style={styles.pill2}>Time: {labTest.turnAroundTime} {labTest.turnAroundTime==='1' ? 'day' : 'days'}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                       <Pressable onPress={decrementQuantity} style={{ padding: 8 }} >
                         <Icon  name="minus-circle-outline" size={28} color="#475569"/>

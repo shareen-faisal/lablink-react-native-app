@@ -1,11 +1,11 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useContext, useState } from 'react';
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { BASE_URL } from '../../config';
 import { CartContext } from '../components/CartContext';
 import OrderSummary from './OrderSummary';
-import { BASE_URL } from '../../config';
 
 const { width, height } = Dimensions.get('window');
 
@@ -120,6 +120,7 @@ const CheckoutScreen = ({navigation}) => {
   const [street, setStreet] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const {clearCart, total, subTotal, cart} = useContext(CartContext)
+  const [loading,setLoading] = useState(false);
 
   const cities = ['Gujranwala','Karachi', 'Lahore', 'Islamabad'];
 
@@ -149,7 +150,7 @@ const CheckoutScreen = ({navigation}) => {
         return;
       }
 
-
+      setLoading(true);
       const res = await fetch(`${BASE_URL}/Orders.json`);
       const orders = await res.json();
 
@@ -186,6 +187,7 @@ const CheckoutScreen = ({navigation}) => {
       })
 
       if(response.ok){
+        setLoading(false)
         setLatestOrder(order)
         setModalVisible(true)
         setSelectedCity('');
@@ -264,10 +266,13 @@ const CheckoutScreen = ({navigation}) => {
                 </View>
             </View>
 
-            {/* Confirm Order Button */}
-            <Pressable style={styles.confirmButton} onPress={handleSubmit} >
-                <Text style={styles.confirmButtonText}>Confirm Order</Text>
-            </Pressable>
+            {loading ? (
+              <ActivityIndicator size="large" color="#3b7cff" style={{ marginTop: 20 }} />
+            ) : (
+              <Pressable style={styles.confirmButton} onPress={handleSubmit} >
+              <Text style={styles.confirmButtonText}>Confirm Order</Text>
+              </Pressable>
+            )}
 
             <OrderSummary visible={modalVisible} onClose={()=>setModalVisible(false)} navigation={navigation} order={latestOrder} />
     </ScrollView>
