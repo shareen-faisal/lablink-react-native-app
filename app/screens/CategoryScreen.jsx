@@ -115,7 +115,7 @@ export default function CategoryScreen({navigation,route}) {
 
         {loading ? (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator size="large" color="#3371FF" />
+              <ActivityIndicator size="large" color="#3b7cff" />
             </View>
           ) : (
             <LabTestList data={labtestsByCategory} onPress={(item) => navigation.navigate('LabTestDetails', { labtest: item })}/>

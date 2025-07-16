@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
-  View,
+  View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { BASE_URL, FIREBASE_AUTH_SIGNIN_URL } from '../../config';
@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
 import BottomSignupText from '../components/BottomSignupText';
+import { CartContext } from '../components/CartContext';
 import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
@@ -24,6 +25,7 @@ const Customer_Login = () => {
   const [password, setPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [loading, setLoading] = useState(false);
+  const {setCart} = useContext(CartContext)
 
   const navigation = useNavigation();
 
@@ -71,6 +73,20 @@ const Customer_Login = () => {
       await AsyncStorage.setItem('userId', localId);
       await AsyncStorage.setItem('userEmail', userEmail);
       await AsyncStorage.setItem('username', username);
+
+      
+      const fetchCart = async ()=>{
+        const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
+        const data = await response.json()
+        setCart(
+          (data || []).map(item => ({
+            ...item,
+            date: new Date(item.date),
+          }))
+        );
+        
+      }
+      await fetchCart()
 
       Toast.show({ 
         type: 'success',
