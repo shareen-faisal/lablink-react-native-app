@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
       elevation:  width * 0.02,
       width: '100%',
       shadowColor: "#000",
-      shadowOpacity:  width * 0.02,
-      shadowRadius:  width * 0.02,
+      shadowOpacity:  0.2,
+      shadowRadius: 4,
       shadowOffset: { width: 0, height: 2 },
       alignSelf: 'center'
 
@@ -37,9 +37,12 @@ const styles = StyleSheet.create({
         marginRight: width * 0.05,
     },
     name: {
-    fontSize: width * 0.057,
+    fontSize: width * 0.05,
     fontWeight: 'bold',
-    marginBottom: width * 0.04
+    marginBottom: width * 0.02,
+    flexShrink: 1,
+    flexWrap: 'wrap',
+    maxWidth: width * 0.65, 
   },
   price: {
     color: '#3B82F6',
@@ -114,9 +117,9 @@ cartButton: {
   marginTop: height * 0.03,
   elevation: 4,
   shadowColor: '#000',
-  shadowOpacity: width * 0.02,
-  shadowOffset: { width: width * 0, height: width * 0.02 },
-  shadowRadius: width * 0.02,
+  shadowOpacity: 0.2,
+  shadowOffset: { width: 0, height: 2 },
+  shadowRadius: 4,
 },
 
 cartButtonText: {
@@ -150,9 +153,9 @@ cartButtonText: {
     color : 'white',
     shadowColor: '#000',
     elevation: 2,
-    shadowOpacity: width * 0.05,
-    shadowOffset: { width: width * 0, height: width * 0.02 },
-    shadowRadius: width * 0.05,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2  },
+    shadowRadius: 4,
       
   },
   selectedText: {
