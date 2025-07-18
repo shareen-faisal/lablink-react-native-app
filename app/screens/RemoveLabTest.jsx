@@ -1,12 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import { BASE_URL } from '../../config';
+import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView, StyleSheet, Text, TouchableOpacity, View,
-  KeyboardAvoidingView, Platform, TouchableWithoutFeedback,
-  FlatList, Keyboard
+  FlatList, Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { BASE_URL } from '../../config';
 
 import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
@@ -188,7 +186,7 @@ const styles = StyleSheet.create({
   },
   suggestionBox: {
     backgroundColor: '#fff',
-    maxHeight: 120,
+    maxHeight: 500,
     marginTop: 8,
     borderRadius: 8,
     paddingHorizontal: 10,

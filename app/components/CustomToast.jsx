@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 30,
     alignItems: 'center',
-    minWidth: '70%',
+    minWidth: '80%',
+    maxWidth:'80%',
     alignSelf: 'center',
   },
   iconContainer: {
@@ -22,6 +23,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
     fontSize: 15,
+    flex:'wrap',
+    flexShrink:1
   },
 });
 

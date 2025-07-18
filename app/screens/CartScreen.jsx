@@ -216,18 +216,6 @@ const CartScreen = ({ route, navigation }) => {
     
     const fixedFooterHeight = height * 0.18; 
 
-    const labtestTemp = 
-    {
-      id:1,
-      name: "Hb",
-      price: 100,
-      description: "Custom logo design with 3 initial concepts",
-      sampleRequired: "Client must provide design inspiration or references",
-      turnaroundTime: "3 days",
-      gender: "This test is for both genders",
-      image: "https://https://www.istockphoto.com/vector/drop-gm1081786788-290097354.com/images/logo-design.png"
-    }
-
     return (
         <View style={styles.container}>
             {cart.length === 0 ? (
@@ -259,24 +247,24 @@ const CartScreen = ({ route, navigation }) => {
                         ] }
                         showsVerticalScrollIndicator={false}
                     >
-                        {cart.map((labTest) => (
+                        {cart.map((labtest) => (
                             <TouchableOpacity
-                                key={`${labTest.id}-${labTest.date}-${labTest.time}`}
+                                key={`${labtest.id}-${labtest.date}-${labtest.time}`}
                                 onPress={() => navigation.navigate('HomeTab', {
                                     screen: 'LabTestDetails',
-                                    params: labtestTemp 
+                                    params: { labtest: labtest } 
                                 })}
                                 style={styles.cartItemContainer}
                             >
                                 <Image
                                     style={styles.itemImage}
-                                    source={labTest.image}
+                                    source={labtest.image}
                                 />
 
                                 <View style={styles.itemNamePriceView}>
-                                    <Text style={styles.itemName}>{labTest.name}</Text>
+                                    <Text style={styles.itemName}>{labtest.name}</Text>
                                     <Text style={styles.itemPriceQuantity}>
-                                        Rs {labTest.price} x {labTest.quantity}
+                                        Rs {labtest.price} x {labtest.quantity}
                                     </Text>
                                 </View>
 
@@ -286,19 +274,19 @@ const CartScreen = ({ route, navigation }) => {
                                         size={width * 0.05}
                                         color="#EF4444"
                                         onPress={() =>
-                                            handleRemoveItem(labTest.id, labTest.date, labTest.time)
+                                            handleRemoveItem(labtest.id, labtest.date, labtest.time)
                                         }
                                     />
                                 </View>
 
                                 <View style={styles.dateTimeContainer}>
                                     <Text style={styles.dateTimeText}>
-                                        {new Date(labTest.date).toLocaleDateString('en-US', {
+                                        {new Date(labtest.date).toLocaleDateString('en-US', {
                                         weekday: 'short',
                                         month: 'short',
                                         day: 'numeric',})}
                                     </Text>
-                                    <Text style={styles.dateTimeText}>{labTest.time}</Text>
+                                    <Text style={styles.dateTimeText}>{labtest.time}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))}

@@ -46,6 +46,7 @@ export default function LabTestBox({name,image,price,onPress}) {
           rightContainer: {
             flex: 1,
             justifyContent: 'space-between',
+            maxWidth: '50%',
           },
 
     })
@@ -58,7 +59,7 @@ export default function LabTestBox({name,image,price,onPress}) {
               <Image  style={styles.image} source={image} ></Image>
 
               <View style={styles.rightContainer} >
-                <Text style={styles.name} >{name}</Text>
+                <Text style={styles.name} numberOfLines={4} ellipsizeMode="tail" >{name}</Text>
               
                 <View style={styles.priceBackground} >
                     <Text style={styles.price} >Rs {price}</Text>

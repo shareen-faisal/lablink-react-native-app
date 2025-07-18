@@ -15,20 +15,18 @@ const styles = StyleSheet.create({
         padding: width * 0.05,
     },
     headingContainer: {
-      flexDirection: 'row',
-      backgroundColor: "#f9f9f9",
-      // marginTop: width * 0.0,
-      borderRadius: width * 0.05,
-      padding:  width * 0.04,
-      marginBottom:  width * 0.05,
-      elevation:  width * 0.02,
-      width: '100%',
-      shadowColor: "#000",
-      shadowOpacity:  0.2,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 2 },
-      alignSelf: 'center'
-
+    flexDirection: 'row',
+    backgroundColor: "#f9f9f9",
+    borderRadius: width * 0.05,
+    padding: width * 0.04,
+    marginBottom: width * 0.05,
+    elevation: width * 0.02,
+    width: '100%',
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    alignSelf: 'center'
     },
     image: {
         width: width * 0.22,
@@ -42,7 +40,6 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.02,
     flexShrink: 1,
     flexWrap: 'wrap',
-    maxWidth: width * 0.65, 
   },
   price: {
     color: '#3B82F6',
@@ -104,7 +101,8 @@ descriptionHeading: {
 descriptionText: {
   fontSize: width * 0.037,
   color: '#334155',
-  // lineHeight: 22,
+  textAlign: 'justify',
+  lineHeight: 20,
 },
 cartButton: {
   backgroundColor: '#3B82F6',
@@ -301,6 +299,14 @@ const isSameDay = (d1, d2) => (
       
   }
 
+  const getImage = ()=>{
+    return labTest.category==='Blood Tests' ? require('../../assets/images/bloodTestCategoryImg.png') :
+    labTest.category==='Heart Health Tests' ? require('../../assets/images/heartHealthTestCategoryImg.png') :
+    labTest.category==='Liver Function Tests' ? require('../../assets/images/liverTestImg.png') :
+    labTest.category==='Kidney Tests' ? require('../../assets/images/kidneyTestImg.png') :
+    labTest.category=== 'Diabetes Tests' ? require('../../assets/images/diabetesTestImg.png') : ''
+  };
+
   const handleAddToCart = ()=>{
     if (!selectedDate || !selectedTime) {
       Toast.show({
@@ -309,8 +315,8 @@ const isSameDay = (d1, d2) => (
       });
       return;
   }
-
-    addToCart({...labTest,quantity:quantity,date:selectedDate,time:selectedTime})
+    const image = getImage()
+    addToCart({...labTest,image:image,quantity:quantity,date:selectedDate,time:selectedTime})
     Toast.show({
       type: 'success',
       text1: 'Lab Test Added to Cart!',
@@ -331,7 +337,7 @@ const isSameDay = (d1, d2) => (
 
                 </View>
 
-                <View>
+                <View style={{ flex: 1 }}>
                     <Text style={styles.name}>{labTest.name}</Text>
                     <Text style={styles.price}>Rs {labTest.price}</Text>
                     <Text style={styles.gender}>This lab test is for both genders</Text>

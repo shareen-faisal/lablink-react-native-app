@@ -47,6 +47,14 @@ const ChangePassword = () => {
       return;
     }
 
+    if (newPassword === oldPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'New password should not be same as old password!',
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
