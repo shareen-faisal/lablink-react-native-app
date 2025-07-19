@@ -14,6 +14,7 @@ const RemoveLabTest = () => {
   const [name, setName] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [labTests, setLabTests] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const labTestsURL = `${BASE_URL}/labTests.json`;
@@ -61,6 +62,7 @@ const RemoveLabTest = () => {
   };
 
   const handleRemove = async () => {
+    setLoading(true);
     const inputName = name.trim().toLowerCase();
     const match = labTests.find(
       (test) => test.name?.toLowerCase() === inputName
@@ -97,6 +99,8 @@ const RemoveLabTest = () => {
         type: 'error',
         text1: 'Failed to remove lab test.',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,9 +142,15 @@ const RemoveLabTest = () => {
           </View>
 
           <View style={styles.bottomSection}>
-            <TouchableOpacity style={styles.shrunkButton} onPress={handleRemove}>
-              <Text style={styles.shrunkButtonText}>Remove</Text>
-            </TouchableOpacity>
+            {loading ? (
+                <View style={styles.loadingButton}>
+                  <Text style={styles.loadingText}>Removing...</Text>
+                </View>
+            ) : (
+              <TouchableOpacity style={styles.shrunkButton} onPress={handleRemove}>
+                <Text style={styles.shrunkButtonText}>Remove</Text>
+              </TouchableOpacity>
+            )}
 
             <View style={styles.footerSpacer} />
           </View>
@@ -196,5 +206,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+  },
+  loadingButton: {
+    backgroundColor: '#ccc',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 24,
+    elevation: 2,
+  },
+  loadingText: {
+    color: '#555',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

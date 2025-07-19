@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { BASE_URL } from '../../config';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -13,6 +12,7 @@ import {
   View
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { BASE_URL } from '../../config';
 
 import CategoryDropdown from '../components/CategoryDropdown';
 import FormInput from '../components/FormInput';
@@ -29,6 +29,7 @@ const AddLabTest = () => {
   const [sampleRequired, setSampleRequired] = useState(false);
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
@@ -81,7 +82,27 @@ const AddLabTest = () => {
   const handleAdd = async () => {
     if (!validateForm()) return;
 
+    setLoading(true);
     try {
+      const checkDuplicate = await fetch(`${BASE_URL}/labTests.json`);
+      if (!checkDuplicate.ok) {
+        throw new Error('Failed to check for duplicates');
+      }
+
+      const existingTests = await checkDuplicate.json();
+      const nameExists = existingTests && 
+        Object.values(existingTests).some((test) => {
+          return test.name.trim().toLowerCase() === name.trim().toLowerCase();
+        });
+
+      if (nameExists) {
+        Toast.show({
+          type: 'error',
+          text1: `Test named '${name}' already exists!`,
+        });
+        return;
+      }
+
       const response = await fetch(`${BASE_URL}/labTests.json`, {
         method: 'POST',
         headers: {
@@ -115,6 +136,8 @@ const AddLabTest = () => {
         type: 'error',
         text1: 'Something went wrong. Please try again.',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -184,9 +207,15 @@ const AddLabTest = () => {
             />
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.shrunkButton} onPress={handleAdd}>
-                <Text style={styles.shrunkButtonText}>Add</Text>
-              </TouchableOpacity>
+              {loading ? (
+                <View style={styles.loadingButton}>
+                  <Text style={styles.loadingText}>Adding...</Text>
+                </View>
+              ) : (
+                <TouchableOpacity style={styles.shrunkButton} onPress={handleAdd}>
+                  <Text style={styles.shrunkButtonText}>Add</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </ScrollView>
@@ -246,5 +275,17 @@ const styles = StyleSheet.create({
   footerSpacer: {
     height: 50,
     backgroundColor: '#3b7cff',
+  },
+  loadingButton: {
+    backgroundColor: '#ccc',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    borderRadius: 24,
+    elevation: 2,
+  },
+  loadingText: {
+    color: '#555',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
