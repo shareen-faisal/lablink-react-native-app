@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import React, { useContext, useState } from 'react';
 import { ActivityIndicator, Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -151,14 +152,24 @@ const CheckoutScreen = ({navigation}) => {
       }
 
       setLoading(true);
-      const res = await fetch(`${BASE_URL}/Orders.json`);
-      const orders = await res.json();
+      
+      const userId = await AsyncStorage.getItem('userId');
+      const userToken = await AsyncStorage.getItem('userToken');
 
-      const existingOrderCount = orders ? Object.keys(orders).length : 0;
-      const newOrderNumber = 100 + existingOrderCount;
+      if (!userId || !userToken) {
+        console.warn('User not logged in or token missing');
+        return;
+      }
+
+      const orderNumberResponse = await fetch(`${BASE_URL}/lastOrderNumber.json`, {
+        method: 'PUT',
+        body: JSON.stringify({ ".sv": { "increment": 1 } })
+      });
+      const newOrderNumber = await orderNumberResponse.json(); 
+
 
       const order = {
-        orderNumber : newOrderNumber,
+        orderNumber: `#${newOrderNumber}`,
         address: street,
         city : selectedCity,
         orderDate: new Date().toLocaleDateString(),
@@ -177,7 +188,7 @@ const CheckoutScreen = ({navigation}) => {
           status: 'pending',
       }
 
-      const response = await fetch(`${BASE_URL}/Orders.json`, {
+      const response = await fetch(`${BASE_URL}/Orders/${userId}.json?auth=${userToken}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

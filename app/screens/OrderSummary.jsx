@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   onTopView: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)', // semi-transparent dark background
+    backgroundColor: 'rgba(0,0,0,0.4)', 
     justifyContent: 'center',
     alignItems: 'center',
   },
