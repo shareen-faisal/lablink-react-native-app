@@ -6,7 +6,7 @@ const OrderCard = ({ order }) => {
     <View style={styles.card}>
       {/* Top: Order ID & Date */}
       <View style={styles.rowBetween}>
-        <Text style={styles.orderNo}>Order No: #{order.id}</Text>
+        <Text style={styles.orderNo}>Order No: {order.id}</Text>
         <Text style={styles.date}>{order.date}</Text>
       </View>
 
@@ -14,17 +14,25 @@ const OrderCard = ({ order }) => {
       {order.items.map((item, index) => (
         <View key={index} style={styles.itemRow}>
           <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemQty}>{item.quantity}x {item.price}</Text>
+          <Text style={styles.itemQty}>{item.quantity} x {item.price}</Text>
         </View>
       ))}
 
       {/* Divider */}
       <View style={styles.divider} />
 
+      <View style={styles.itemRow}>
+        <Text style={styles.itemName}>Delivery Charges</Text>
+        <Text style={styles.itemQty}>Rs. {order.deliveryCharges}</Text>
+      </View>
+
+      {/* Divider */}
+      <View style={styles.divider} />
+
       {/* Bottom: Total Price & Status */}
       <View style={styles.rowBetween}>
-        <Text style={styles.total}>Total Price: {order.total}</Text>
-        <Text style={styles.status}>{order.status}</Text>
+        <Text style={styles.total}>Total: Rs. {order.total}</Text>
+        <Text style={styles.status}>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</Text>
       </View>
     </View>
   );

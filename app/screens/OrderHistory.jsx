@@ -1,23 +1,91 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View
+} from 'react-native';
+import { BASE_URL } from '../../config';
 import OrderCard from '../components/OrderCard';
-
-
 
 const OrderHistory = () => {
   const navigation = useNavigation();
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
-  const handleBack = () => {
-    navigation.goBack();
+  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
+  const [error, setError] = useState('');
+
+  const fetchOrders = async () => {
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (!userId) {
+        setError('User ID not found.');
+        return;
+      }
+
+      const res = await fetch(`${BASE_URL}/Orders/${userId}.json`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      const ordersArray = [];
+
+      if (data) {
+        Object.keys(data).forEach((orderID) => {
+          const orderData = data[orderID];
+          const itemsArray = [];
+
+          if (orderData.items) {
+            Object.values(orderData.items).forEach((item) => {
+              itemsArray.push({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+              });
+            });
+          }
+
+          ordersArray.push({
+            id: orderData.orderNumber,
+            date: `${orderData.orderDate}, ${orderData.orderTime}`,
+            items: itemsArray,
+            total: orderData.total,
+            status: orderData.status,
+            deliveryCharges: orderData.deliveryCharges,
+          });
+        });
+      }
+
+      setOrders(ordersArray.reverse());
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const styles = StyleSheet.create({
     container: {
       padding: width * 0.05,
       backgroundColor: '#fff',
-      flex:1,
+      flex: 1,
     },
     header: {
       fontSize: 24,
@@ -28,38 +96,35 @@ const OrderHistory = () => {
       textAlign: 'center',
     },
     cardWrapper: {
-      marginTop: 30, 
+      marginTop: 30,
       paddingBottom: 20,
     },
+    errorText: {
+      color: 'red',
+      textAlign: 'center',
+      marginTop: 20,
+    },
   });
-  
-
-  const order = {
-    id: 123456,
-    date: '09/07/2025, 7:30 PM',
-    items: [
-      { name: 'Liver Test', quantity: 1, price: 200 },
-      { name: 'Heart Test', quantity: 1, price: 200 },
-    ],
-    total: '400 PKR',
-    status: 'Delivered',
-  };
 
   return (
     <ScrollView style={styles.container}>
-      {/* <BackButton onPress={handleBack} /> */}
-
       <Text style={styles.header}>Order History</Text>
 
-      <View style={styles.cardWrapper}>
-        <OrderCard order={order} />
-      </View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#3b7cff" style={{marginTop:20}}/>
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : orders.length === 0 ? (
+        <Text style={{ textAlign: 'center', marginTop: 20 }}>No orders were found.</Text>
+      ) : (
+        <View style={styles.cardWrapper}>
+          {orders.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
-
-  
 };
 
 export default OrderHistory;
-
-
