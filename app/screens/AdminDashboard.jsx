@@ -6,8 +6,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import DashboardButton from '../components/DashboardButton';
 import DashboardHeader from '../components/DashboardHeader';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const AdminDashboard = () => {
+  useAuthRedirect();
   const navigation = useNavigation();
 
   const handleAddLabTest = () => {
@@ -19,7 +21,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = async () => {
-    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail']);
+    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail', 'username']);
     Toast.show({
       type: 'success',
       text1: 'Logged out successfully!',

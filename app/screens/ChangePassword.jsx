@@ -17,8 +17,10 @@ import { FIREBASE_AUTH_CHANGEPASSWORD_URL, FIREBASE_AUTH_SIGNIN_URL } from '@/co
 import FormTitle from '../components/FormTitle';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const ChangePassword = () => {
+  useAuthRedirect();
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');

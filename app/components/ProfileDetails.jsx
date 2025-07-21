@@ -10,7 +10,7 @@ const ProfileDetails = () => {
   const navigation = useNavigation();
 
   const handleLogout = async () => {
-    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail']);
+    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail', 'username']);
     Toast.show({
       type: 'success',
       text1: 'Logged out successfully!',

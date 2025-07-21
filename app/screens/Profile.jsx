@@ -4,8 +4,10 @@ import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 
 import ProfileDetails from '../components/ProfileDetails';
 import ProfileHeader from '../components/ProfileHeader';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const Profile = () => {
+  useAuthRedirect();
   const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
 

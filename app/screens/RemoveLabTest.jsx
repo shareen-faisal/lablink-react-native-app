@@ -9,8 +9,10 @@ import { BASE_URL } from '../../config';
 import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
 import PageHeader from '../components/PageHeader';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const RemoveLabTest = () => {
+  useAuthRedirect();
   const [name, setName] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [labTests, setLabTests] = useState([]);

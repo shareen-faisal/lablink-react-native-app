@@ -11,8 +11,10 @@ import {
 } from 'react-native';
 import { BASE_URL } from '../../config';
 import OrderCard from '../components/OrderCard';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const OrderHistory = () => {
+  useAuthRedirect();
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
 

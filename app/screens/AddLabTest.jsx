@@ -20,8 +20,10 @@ import FormTitle from '../components/FormTitle';
 import HalfInputRow from '../components/HalfInputRow';
 import PageHeader from '../components/PageHeader';
 import RadioButton from '../components/RadioButton';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const AddLabTest = () => {
+  useAuthRedirect();
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [turnAroundTime, setTurnAroundTime] = useState('');

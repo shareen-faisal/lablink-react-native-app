@@ -17,8 +17,10 @@ import FormTitle from '../components/FormTitle';
 import IconInput from '../components/IconInput';
 import PrimaryButton from '../components/PrimaryButton';
 import ProfileHeader from '../components/ProfileHeader';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const ProfileView = () => {
+  useAuthRedirect();
   const navigation = useNavigation();
 
   const [name, setName] = useState('');
