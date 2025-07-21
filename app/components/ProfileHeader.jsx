@@ -1,15 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+
 const ProfileHeader = () => {
   const [username, setUsename] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchUsername = async () => {
       try {
         const storedUsername = await AsyncStorage.getItem('username');
-        if (storedUsername) {
+        const storedName = await AsyncStorage.getItem('name');
+        if (storedName && storedName.trim() !== '') {
+          setUsename(storedName);
+        } else if (storedUsername) {
           setUsename(storedUsername);
         } else {
           setUsename('Unknown User');
@@ -18,8 +24,10 @@ const ProfileHeader = () => {
         console.error('Failed to load username: ', error);
       }
     };
-    fetchUsername();
-  },[]);
+    if (isFocused) {
+      fetchUsername();
+    }
+  },[isFocused]);
 
   return (
     <View style={styles.headerContainer}>

@@ -88,6 +88,7 @@ const ProfileView = () => {
         text1: 'Profile updated successfully!',
       });
 
+      await storeName();
       // setTimeout(() => {
         navigation.navigate('Profile');
       // }, 1300);
@@ -101,9 +102,18 @@ const ProfileView = () => {
     }
   };
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const storeName = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}/name.json`);
+      const fetchedName = await response.json();
+      
+      if (fetchedName) {
+        await AsyncStorage.setItem('name', fetchedName);
+      }
+    } catch (error) {
+      console.error('Failed to fetch name:', error)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>

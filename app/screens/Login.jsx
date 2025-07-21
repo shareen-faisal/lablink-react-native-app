@@ -17,6 +17,7 @@ import { CartContext } from '../components/CartContext';
 import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
+import BottomForgetPasswordText from '../components/BottomForgetPasswordText';
 
 const ADMIN_EMAIL = 'admin@lablink.com';
 
@@ -68,11 +69,26 @@ const Customer_Login = () => {
       if (!username) {
         throw new Error('Username not found in database');
       }
+      const storeName = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/users/${localId}/name.json`);
+          const fetchedName = await response.json();
+          
+          if (fetchedName) {
+            await AsyncStorage.setItem('name', fetchedName);
+          }
+        } catch (error) {
+          console.error('Failed to fetch name:', error)
+        }
+      }
+
+      await storeName();
       await AsyncStorage.setItem('userRole', role);
       await AsyncStorage.setItem('userToken', idToken);
       await AsyncStorage.setItem('userId', localId);
       await AsyncStorage.setItem('userEmail', userEmail);
       await AsyncStorage.setItem('username', username);
+
 
       
       const fetchCart = async ()=>{
@@ -114,6 +130,10 @@ const Customer_Login = () => {
     navigation.navigate('Signup')
   };
 
+  const handleForgetPassword = () => {
+    navigation.navigate('Forget Password');
+  };
+
   const handleBack = () => {
     navigation.goBack()
   };
@@ -148,6 +168,7 @@ const Customer_Login = () => {
           <PrimaryButton title="Login" onPress={loginHandler} />
         )}
 
+        <BottomForgetPasswordText onPress={handleForgetPassword}/>
         <BottomSignupText onPress={handleSignup} />
       </View>
     </SafeAreaView>
