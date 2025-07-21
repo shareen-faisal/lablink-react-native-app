@@ -3,8 +3,10 @@ import React from 'react';
 import { FlatList, Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import CategoryBox from '../components/CategoryBox';
 import SearchBar from '../components/SearchBar.jsx';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 const HomeScreen = ()=>{
+  useAuthRedirect()
 
    const { width, height } = useWindowDimensions();
    const navigation = useNavigation()

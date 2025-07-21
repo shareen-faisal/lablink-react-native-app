@@ -3,6 +3,8 @@ import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from
 import Toast from 'react-native-toast-message';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { CartContext } from '../components/CartContext';
+import useAuthRedirect from '../components/useAuthRedirect';
+
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -183,6 +185,7 @@ cartButtonText: {
 
 })
 const LabTestDetailScreen = ({route}) => {
+  useAuthRedirect()
   const { addToCart } = useContext(CartContext);
 
  const dates = ['12 Feb Fri','13 Feb Sat', '14 Feb Sun', '15 Feb Mon','16 Feb Tue', '17 Feb Fri','18 Feb Sat', '19 Feb Sun', '20 Feb Mon','21 Feb Tue'];

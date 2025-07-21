@@ -1,6 +1,8 @@
 // import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import useAuthRedirect from '../components/useAuthRedirect';
+
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -68,6 +70,8 @@ const styles = StyleSheet.create({
 
 
 const OrderSummary = ({ visible, onClose, navigation, order }) => {
+  useAuthRedirect()
+
     // const navigation = useNavigation();
 
   //   const handleContinue = () => {

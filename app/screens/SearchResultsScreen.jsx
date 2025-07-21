@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
 import { BASE_URL } from '../../config';
 import LabTestList from '../components/LabTestList';
+import useAuthRedirect from '../components/useAuthRedirect';
+
 
 
 
 const SearchResults = ({navigation})=>{
+  useAuthRedirect()
+
   const {height,width} = useWindowDimensions();
   const [searchInput,setSearchInput] = useState('');
   const [loading,setLoading] = useState(false)

@@ -2,6 +2,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useContext } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { CartContext } from '../components/CartContext';
+import useAuthRedirect from '../components/useAuthRedirect';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -200,6 +202,8 @@ const styles = StyleSheet.create({
 });
 
 const CartScreen = ({ route, navigation }) => {
+  useAuthRedirect()
+
     const { cart, removeFromCart, total, subTotal } = useContext(CartContext);
 
     const applyNavigation = () => {

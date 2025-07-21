@@ -6,7 +6,9 @@ import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { BASE_URL } from '../../config';
 import { CartContext } from '../components/CartContext';
+import useAuthRedirect from '../components/useAuthRedirect';
 import OrderSummary from './OrderSummary';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -115,6 +117,7 @@ const styles = StyleSheet.create({
 
 
 const CheckoutScreen = ({navigation}) => {
+  useAuthRedirect()
 
   const [latestOrder, setLatestOrder] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);

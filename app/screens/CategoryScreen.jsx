@@ -4,8 +4,10 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, useW
 import { BASE_URL } from '../../config';
 import LabTestList from '../components/LabTestList';
 import SearchBar from '../components/SearchBar.jsx';
+import useAuthRedirect from '../components/useAuthRedirect';
 
 export default function CategoryScreen({navigation,route}) {
+    useAuthRedirect()
     const [selectedCategory, setSelectedCategory] = useState(route.params.category);
     const [labtests,setLabtests] = useState([]);
     const [labtestsByCategory,setLabtestsByCategory] = useState([]);
