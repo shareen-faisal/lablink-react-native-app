@@ -15,19 +15,27 @@ const OrderCard = ({ order }) => {
           <View key={index} style={styles.itemRow}>
             <View style={{width:220}}>
               <Text style={styles.itemName}>{item.name}</Text>  
-              <Text style={styles.date}>{item.date}, {item.time}</Text>            
+              <View style={styles.pillsRow}>
+              <View style={styles.pill}>
+                <Text style={styles.pillText}>Date: {item.date}</Text>
+              </View>
+              <View style={styles.pill}>
+                <Text style={styles.pillText}>Time: {item.time}</Text>
+              </View>
+              </View>
+           
             </View>
             <Text style={styles.itemQty}>{item.quantity} x {item.price}</Text>              
           </View>
         ))}
 
         {/* Divider */}
-        <View style={styles.divider} />
+        {/* <View style={styles.divider} /> */}
 
-        <View style={styles.itemRow}>
+        {/* <View style={styles.itemRow}>
           <Text style={styles.itemName}>Delivery Charges</Text>
           <Text style={styles.itemQty}>Rs. {order.deliveryCharges}</Text>
-        </View>
+        </View> */}
 
         {/* Divider */}
         <View style={styles.divider} />
@@ -98,4 +106,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#28a745',
   },
+  pillsRow: {
+    flexDirection: 'row',
+    marginRight: 8, 
+    marginTop: 8,
+  },
+  pill: {
+    backgroundColor: '#e6f0ff',
+    borderColor: '#3b7cff',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    marginRight: 8,
+  },
+  pillText: {
+    color: '#3b7cff',
+    fontSize: 12,
+  },
+  
+  
 });

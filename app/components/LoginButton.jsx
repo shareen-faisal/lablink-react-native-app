@@ -16,7 +16,7 @@ export default LoginButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#3b7cff',
     paddingVertical: 14,
     borderRadius: 30,
     marginBottom: 20,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
   },
   buttonText: {
-    color: '#0066ff',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
   },

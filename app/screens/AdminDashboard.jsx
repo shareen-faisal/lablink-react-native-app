@@ -1,11 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import Toast from 'react-native-toast-message';
 import DashboardButton from '../components/DashboardButton';
 import DashboardHeader from '../components/DashboardHeader';
+import LabTestsInsight from '../components/LabTestsInsight';
+import OrdersInsight from '../components/OrdersInsight';
 import useAuthRedirect from '../components/useAuthRedirect';
 
 const AdminDashboard = () => {
@@ -33,11 +35,12 @@ const AdminDashboard = () => {
     });
   };
 
+ 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+
       <DashboardHeader title="Admin Dashboard" />
 
-      {/* Greeting and Logout */}
       <View style={styles.topRow}>
         <Text style={styles.greeting}>
           Hello! <Text style={styles.greetingBold}>Admin</Text>
@@ -48,7 +51,6 @@ const AdminDashboard = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Action Buttons */}
       <View style={styles.buttonRow}>
         <DashboardButton
           iconName="add-circle-outline"
@@ -61,7 +63,11 @@ const AdminDashboard = () => {
           onPress={handleRemoveLabTest}
         />
       </View>
-    </View>
+
+      <OrdersInsight/>
+      <LabTestsInsight/>
+      
+  </ScrollView>
   );
 };
 
@@ -69,10 +75,9 @@ export default AdminDashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // paddingTop: 60,
     paddingHorizontal: 20,
+    paddingBottom: 30,
+    backgroundColor: '#fff',
   },
   topRow: {
     flexDirection: 'row',

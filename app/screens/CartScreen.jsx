@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     emptyCartText: {
         fontSize: width * 0.05,
         fontWeight: 'bold',
-        color: 'black',
+        color: '#444647',
         marginBottom: height * 0.02,
     },
     startShoppingButton: {

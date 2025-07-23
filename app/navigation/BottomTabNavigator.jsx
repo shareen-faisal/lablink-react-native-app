@@ -47,7 +47,7 @@ const BottomTabNavigator = ()=>{
                 return {
                     headerShown:false,
                     tabBarShowLabel:true,
-                    tabBarLabelStyle: {fontSize: width * 0.03,fontWeight: '600',marginTop: 4},
+                    tabBarLabelStyle: {fontSize: width * 0.03,fontWeight: '600',marginTop: 3},
                     tabBarIcon: ({focused,color,size})=>{
                         let iconName;
                         let Icon=Ionicons;

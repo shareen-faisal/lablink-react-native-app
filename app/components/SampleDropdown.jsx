@@ -1,16 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  FlatList, Modal, StyleSheet, Text, TouchableOpacity, View
+    FlatList, Modal, StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 
-const CategoryDropdown = ({ selected, onSelect }) => {
+const SampleDropdown = ({ selected, onSelect }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const categories = ['Blood Tests', 'Diabetes Tests', 'Heart Health Tests', 'Liver Function Tests' , 'Kidney Tests'];
-
+  const sampleTypes = [
+    "Blood",
+    "Urine",
+    "Saliva",
+    "Stool",
+    "Liver Tissue"
+  ];
+  
   return (
     <>
-      <Text style={styles.label}>Category</Text>
+      <Text style={styles.label}>Sample Type</Text>
       <TouchableOpacity
         style={styles.dropdown}
         onPress={() => setModalVisible(true)}
@@ -25,7 +31,7 @@ const CategoryDropdown = ({ selected, onSelect }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <FlatList
-              data={categories}
+              data={sampleTypes}
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
                 <TouchableOpacity
@@ -49,7 +55,7 @@ const CategoryDropdown = ({ selected, onSelect }) => {
   );
 };
 
-export default CategoryDropdown;
+export default SampleDropdown;
 
 const styles = StyleSheet.create({
   label: {

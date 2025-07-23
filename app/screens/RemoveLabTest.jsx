@@ -129,18 +129,20 @@ const RemoveLabTest = () => {
               onChangeText={handleChange}
             />
 
-            {suggestions.length > 0 && (
-              <FlatList
-                data={suggestions}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleSuggestionClick(item.name)}>
-                    <Text style={styles.suggestionText}>{item.name}</Text>
-                  </TouchableOpacity>
-                )}
-                style={styles.suggestionBox}
-              />
-            )}
+              {suggestions.length > 0 && (
+                <View style={styles.suggestionWrapper}>
+                  <FlatList
+                    data={suggestions}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity onPress={() => handleSuggestionClick(item.name)}>
+                        <Text style={styles.suggestionText}>{item.name}</Text>
+                      </TouchableOpacity>
+                    )}
+                    showsVerticalScrollIndicator={true}
+                  />
+                </View>
+              )}
           </View>
 
           <View style={styles.bottomSection}>
@@ -198,7 +200,6 @@ const styles = StyleSheet.create({
   },
   suggestionBox: {
     backgroundColor: '#fff',
-    maxHeight: 500,
     marginTop: 8,
     borderRadius: 8,
     paddingHorizontal: 10,
@@ -221,4 +222,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  suggestionWrapper: {
+    backgroundColor: '#fff',
+    maxHeight: 270, 
+    borderRadius: 8,
+    marginTop: 8,
+    paddingHorizontal: 10,
+  },
+  
 });

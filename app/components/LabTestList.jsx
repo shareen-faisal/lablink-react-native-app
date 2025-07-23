@@ -11,7 +11,7 @@ export default function LabTestList({data,onPress}) {
 
             <FlatList data={data} keyExtractor={(item)=>(item.id)} renderItem={({item})=>(
               <LabTestBox name={item.name} price={item.price} image={item.image} onPress={()=>(onPress(item))} />
-            )} numColumns={2} columnWrapperStyle={{justifyContent: 'space-between', marginBottom: 16, marginTop:16, paddingHorizontal:1}} >
+            )} numColumns={2} columnWrapperStyle={{justifyContent: 'space-between', marginBottom: 16, marginTop:16, paddingHorizontal:1}}  showsVerticalScrollIndicator={false} >
 
             </FlatList>
 

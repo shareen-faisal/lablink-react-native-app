@@ -12,12 +12,12 @@ import { BASE_URL, FIREBASE_AUTH_SIGNIN_URL } from '../../config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AppInput from '../components/AppInput';
 import BackButton from '../components/BackButton';
+import BottomForgetPasswordText from '../components/BottomForgetPasswordText';
 import BottomSignupText from '../components/BottomSignupText';
 import { CartContext } from '../components/CartContext';
 import LoginHeader from '../components/LoginHeader';
 import PasswordInput from '../components/PasswordInput';
 import PrimaryButton from '../components/PrimaryButton';
-import BottomForgetPasswordText from '../components/BottomForgetPasswordText';
 
 const ADMIN_EMAIL = 'admin@lablink.com';
 
@@ -121,7 +121,7 @@ const Customer_Login = () => {
       setLoading(false);
       Toast.show({
         type: 'error',
-        text1: err.message,
+        text1: 'Invalid credentials',
       });
     }
   };

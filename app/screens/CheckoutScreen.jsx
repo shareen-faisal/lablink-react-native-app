@@ -138,6 +138,8 @@ const CheckoutScreen = ({navigation}) => {
         return;
       }
 
+      
+
       if(!street){
         Toast.show({
           type: 'error',
@@ -229,7 +231,7 @@ const CheckoutScreen = ({navigation}) => {
                 <Icon name="location-outline" size={18} color="#407CE2" />
                 <Text style={styles.label}>Street Address</Text>
             </View>
-            <TextInput placeholder="Enter street address" style={styles.inputField} value={street} onChangeText={setStreet}  />
+            <TextInput placeholder="Enter street address" style={styles.inputField} value={street} onChangeText={setStreet}  maxLength={100} />
 
             
             <View style={styles.inputGroup}>

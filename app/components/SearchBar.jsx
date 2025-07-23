@@ -12,7 +12,6 @@ const SearchBar = ({isEditable, onPress, searchTerm, onchangeText})=>{
     flexDirection: 'row',
     backgroundColor: '#f0f0f0',
     alignItems: 'center',
-    borderRadius:'',
     paddingVertical: height * 0.005,
     paddingHorizontal: width * 0.04,
     marginVertical: height * 0.01,

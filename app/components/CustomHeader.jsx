@@ -17,7 +17,7 @@ export default function CustomHeader({ showBack }) {
         ) : (
           <View style={styles.backBtn} />
         )}
-        <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
+        <Image source={require('../../assets/images/logo12.png')} style={styles.logo} />
         <Text style={styles.title}>Lab Link</Text>
       </View>
     </SafeAreaView>
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 28,
-    height: 28,
+    width: 40,
+    height: 40,
     resizeMode: 'contain',
-    marginRight: 8,
+    marginRight: 5,
   },
   title: {
     fontSize: 18,
