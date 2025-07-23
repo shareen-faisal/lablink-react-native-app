@@ -13,8 +13,11 @@ const OrderCard = ({ order }) => {
         {/* Items List */}
         {order.items.map((item, index) => (
           <View key={index} style={styles.itemRow}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemQty}>{item.quantity} x {item.price}</Text>
+            <View style={{width:220}}>
+              <Text style={styles.itemName}>{item.name}</Text>  
+              <Text style={styles.date}>{item.date}, {item.time}</Text>            
+            </View>
+            <Text style={styles.itemQty}>{item.quantity} x {item.price}</Text>              
           </View>
         ))}
 

@@ -55,6 +55,8 @@ const OrderHistory = () => {
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
+                date: item.date,
+                time: item.time,
               });
             });
           }
