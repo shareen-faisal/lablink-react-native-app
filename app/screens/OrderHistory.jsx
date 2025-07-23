@@ -94,7 +94,7 @@ const OrderHistory = () => {
       fontWeight: 'bold',
       color: 'black',
       marginTop: 8,
-      marginBottom: 15,
+      marginBottom: 0,
       textAlign: 'center',
     },
     cardWrapper: {

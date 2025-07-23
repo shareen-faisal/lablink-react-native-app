@@ -3,9 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 
 const OrderCard = ({ order }) => {
   return (
-    <View style={styles.outerCard}>
-
-    
       <View style={styles.card}>
         {/* Top: Order ID & Date */}
         <View style={styles.rowBetween}>
@@ -38,24 +35,17 @@ const OrderCard = ({ order }) => {
           <Text style={styles.status}>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</Text>
         </View>
       </View>
-    </View>
   );
 };
 
 export default OrderCard;
 
 const styles = StyleSheet.create({
-  outerCard:{
-     backgroundColor: '#f1f5ff',
-     padding: 10,
-     borderRadius: 10,
-     marginBottom: 10,
-  },
   card: {
     backgroundColor: '#fff',
     borderRadius: 18,
     padding: 18,
-    // marginBottom: ,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOpacity: 0.07,
     shadowRadius: 6,
