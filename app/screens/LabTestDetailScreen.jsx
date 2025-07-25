@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   price: {
-    color: '#3B82F6',
+    color: '#3b7cff',
     fontWeight: 'bold',
     fontSize: width * 0.040,
     marginBottom: width * 0.01,
@@ -107,7 +107,7 @@ descriptionText: {
   lineHeight: 20,
 },
 cartButton: {
-  backgroundColor: '#3B82F6',
+  backgroundColor: '#3b7cff',
   width: '100%',
   paddingVertical: height * 0.015,
   paddingHorizontal: width * 0.1,
@@ -149,7 +149,7 @@ cartButtonText: {
     justifyContent: 'center',
   },
   selectedSlot: {
-    backgroundColor: '#407CE2',
+    backgroundColor: '#3b7cff',
     color : 'white',
     shadowColor: '#000',
     elevation: 2,

@@ -13,7 +13,7 @@ export default PageHeader;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 6,

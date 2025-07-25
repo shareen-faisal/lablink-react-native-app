@@ -9,7 +9,7 @@ export default DashboardHeader;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,

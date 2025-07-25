@@ -75,8 +75,9 @@ export default AdminDashboard;
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     paddingHorizontal: 20,
-    paddingBottom: 30,
+    // paddingBottom: 30,
     backgroundColor: '#fff',
   },
   topRow: {

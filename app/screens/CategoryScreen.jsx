@@ -39,7 +39,7 @@ export default function CategoryScreen({navigation,route}) {
             color: '#000',
           },
           selectedBtn: {
-            backgroundColor: '#3371FF',
+            backgroundColor: '#3b7cff',
           },
           selectedText: {
             color: '#fff',

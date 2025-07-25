@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     statsRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: 20,
+      marginBottom: 25,
+      marginTop:5,
     },
     statBox: {
       flex: 1,

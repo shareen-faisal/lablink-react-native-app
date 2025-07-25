@@ -18,10 +18,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#3b7cff',
     paddingVertical: 14,
-    borderRadius: 30,
+    paddingHorizontal: 32,
+    borderRadius: 24,
     marginBottom: 20,
     alignItems: 'center',
     width: '100%',
+    elevation: 2,
   },
   adminBtn: {
     backgroundColor: '#f2f2f2',

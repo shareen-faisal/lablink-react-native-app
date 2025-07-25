@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         marginBottom: height * 0.02,
     },
     startShoppingButton: {
-        backgroundColor: '#3B82F6',
+        backgroundColor: '#3b7cff',
         paddingVertical: height * 0.015,
         paddingHorizontal: width * 0.08,
         borderRadius: width * 0.1,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         color: '#1E293B',
     },
     itemPriceQuantity: {
-        color: '#3B82F6',
+        color: '#3b7cff',
         fontWeight: 'bold',
         fontSize: width * 0.038,
         marginTop: height * 0.005,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         padding: width * 0.01,
     },
     dateTimeContainer: {
-        backgroundColor: '#407CE2',
+        backgroundColor: '#3b7cff',
         borderRadius: width * 0.08,
         paddingHorizontal: width * 0.05,
         paddingVertical: height * 0.01,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         color: '#1E293B',
     },
     checkoutButton: {
-        backgroundColor: '#3B82F6',
+        backgroundColor: '#3b7cff',
         width: '100%',
         paddingVertical: height * 0.018,
         borderRadius: width * 0.5,

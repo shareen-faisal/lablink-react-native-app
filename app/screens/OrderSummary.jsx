@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   button: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: '#3b7cff',
     paddingVertical: height * 0.015,
     paddingHorizontal: width * 0.12,
     borderRadius: 30,
@@ -105,7 +105,7 @@ const OrderSummary = ({ visible, onClose, navigation, order }) => {
         <View style={styles.onTopView}>
              <View style={styles.modalContainer}>
                 <Image style={styles.modalIcon} source={require('../../assets/images/orderDone.png')} />
-                <Text style={styles.title}>Thankyou for your Order</Text>
+                <Text style={styles.title}>Thank you for your Order</Text>
 
                     <View>
                         <Text style={styles.detailText}>Order Number: {order?.orderNumber} </Text>

@@ -224,9 +224,9 @@ const styles = StyleSheet.create({
   },
   suggestionWrapper: {
     backgroundColor: '#fff',
-    maxHeight: 270, 
+    maxHeight: 380, 
     borderRadius: 8,
-    marginTop: 8,
+    marginTop: 15,
     paddingHorizontal: 10,
   },
   
