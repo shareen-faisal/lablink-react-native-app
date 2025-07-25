@@ -179,7 +179,18 @@ cartButtonText: {
     fontSize: width * 0.045,
     fontWeight: 'bold',
     // marginBottom: height * 0.01,
-  }
+  }, 
+  descriptionHeader: { 
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: height * 0.01,
+  },
+  descriptionHeading: {
+        fontSize: width * 0.045,
+        fontWeight: 'bold',
+        
+  },
   
 
 
@@ -200,6 +211,7 @@ const LabTestDetailScreen = ({route}) => {
   const { labtest } = route.params;
   const [labTest, setLabTest] = useState(labtest);
   const [showDateTimeSlots, setShowDateTimeSlots] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
  
   
@@ -331,6 +343,10 @@ const isSameDay = (d1, d2) => (
 
   }
 
+  const toggleDescription = () => { 
+    setShowDescription(prev => !prev);
+  };
+
     return(
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={styles.scrollViewContent}>
@@ -358,13 +374,13 @@ const isSameDay = (d1, d2) => (
                   <Text style={styles.pill2}>Time: {labTest.turnAroundTime} {labTest.turnAroundTime==='1' ? 'day' : 'days'}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                       <Pressable onPress={decrementQuantity} style={{ padding: 8 }} >
-                        <Icon  name="minus-circle-outline" size={28} color="#475569"/>
+                        <Icon  name="minus-circle" size={26} color="#475569"/>
                       </Pressable>
 
                       <Text style={{ marginHorizontal: 16, fontSize: width * 0.05, fontWeight: 'bold' }}>{quantity}</Text>
 
                       <Pressable onPress={incrementQuantity} style={{ padding: 8 }} >
-                        <Icon name="plus-circle-outline" size={28} color="#475569"/>
+                        <Icon name="plus-circle" size={26} color="#475569"/>
                       </Pressable>
 
                     </View>
@@ -372,11 +388,22 @@ const isSameDay = (d1, d2) => (
 
             </View>
 
-            <View style={styles.descriptionContainer}>
-                <Text style={styles.descriptionHeading}>Description</Text>
-                <View style={styles.descriptionBox}>
-                    <Text style={styles.descriptionText}>{labTest.description}</Text>
+              <View style={styles.descriptionContainer}>
+                <View style={styles.descriptionHeader}> 
+                    <Text style={styles.descriptionHeading}>Description</Text>
+                    <Pressable onPress={toggleDescription} style={{ padding: 5 }}> 
+                        <Icon
+                            name={showDescription ? "chevron-up" : "chevron-down"} 
+                            size={28}
+                            color="#475569"
+                        />
+                    </Pressable>
                 </View>
+                {showDescription && ( 
+                    <View style={styles.descriptionBox}>
+                        <Text style={styles.descriptionText}>{labTest.description}</Text>
+                    </View>
+                )}
             </View>
 
 
