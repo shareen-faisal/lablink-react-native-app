@@ -2,50 +2,85 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const OrderCard = ({ order }) => {
-  return (
-      <View style={styles.card}>
-        {/* Top: Order ID & Date */}
-        <View style={styles.rowBetween}>
-          <Text style={styles.orderNo}>Order No: {order.id}</Text>
-          <Text style={styles.date}>{order.date}</Text>
-        </View>
+  const getStatusStyle = (status) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return {
+          backgroundColor: '#dff6e7',
+          borderColor: '#28a745',
+          textColor: '#28a745'
+        };
+      case 'pending':
+        return {
+          backgroundColor: '#fff3cd',
+          borderColor: '#d1b757',
+          textColor: '#b7952e'
+        };
+      default:
+        return {
+          backgroundColor: '#e2e3e5',
+          borderColor: '#d6d8db',
+          textColor: '#383d41'
+        };
+    }
+  };
 
-        {/* Items List */}
-        {order.items.map((item, index) => (
-          <View key={index} style={styles.itemRow}>
-            <View style={{width:220}}>
-              <Text style={styles.itemName}>{item.name}</Text>  
-              <View style={styles.pillsRow}>
+  const statusStyles = getStatusStyle(order.status);
+
+  return (
+    <View style={styles.card}>
+      {/* Top: Order ID & Date */}
+      <View style={styles.rowBetween}>
+        <Text style={styles.orderNo}>Order No: {order.id}</Text>
+        <Text style={styles.date}>{order.date}</Text>
+      </View>
+
+      {/* Items List */}
+      {order.items.map((item, index) => (
+        <View key={index} style={styles.itemRow}>
+          <View style={{ width: 220 }}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <View style={styles.pillsRow}>
               <View style={styles.pill}>
                 <Text style={styles.pillText}>Date: {item.date}</Text>
               </View>
               <View style={styles.pill}>
                 <Text style={styles.pillText}>Time: {item.time}</Text>
               </View>
-              </View>
-           
             </View>
-            <Text style={styles.itemQty}>{item.quantity} x {item.price}</Text>              
           </View>
-        ))}
+          <Text style={styles.itemQty}>
+            {item.quantity} x {item.price}
+          </Text>
+        </View>
+      ))}
 
-        {/* Divider */}
-        {/* <View style={styles.divider} /> */}
+      {/* Divider */}
+      <View style={styles.divider} />
 
-        {/* <View style={styles.itemRow}>
-          <Text style={styles.itemName}>Delivery Charges</Text>
-          <Text style={styles.itemQty}>Rs. {order.deliveryCharges}</Text>
-        </View> */}
-
-        {/* Divider */}
-        <View style={styles.divider} />
-
-        {/* Bottom: Total Price & Status */}
-        <View style={styles.rowBetween}>
-          <Text style={styles.total}>Total: Rs. {order.total}</Text>
-          <Text style={styles.status}>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</Text>
+      {/* Bottom: Total Price & Status */}
+      <View style={styles.rowBetween}>
+        <Text style={styles.total}>Total: Rs. {order.total}</Text>
+        <View
+          style={[
+            styles.pillStatus,
+            {
+              backgroundColor: statusStyles.backgroundColor,
+              borderColor: statusStyles.borderColor
+            }
+          ]}
+        >
+          <Text
+            style={[
+              styles.pillStatusText,
+              { color: statusStyles.textColor }
+            ]}
+          >
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+          </Text>
         </View>
       </View>
+    </View>
   );
 };
 
@@ -67,7 +102,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-   
   },
   orderNo: {
     fontWeight: 'bold',
@@ -101,14 +135,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
   },
-  status: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: '#28a745',
-  },
   pillsRow: {
     flexDirection: 'row',
-    marginRight: 8, 
+    marginRight: 8,
     marginTop: 8,
   },
   pill: {
@@ -124,6 +153,15 @@ const styles = StyleSheet.create({
     color: '#3b7cff',
     fontSize: 12,
   },
-  
-  
+  pillStatus: {
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    marginRight: 8,
+  },
+  pillStatusText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
 });

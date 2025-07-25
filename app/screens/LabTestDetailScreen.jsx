@@ -1,10 +1,10 @@
+import dayjs from 'dayjs';
 import { useContext, useState } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Toast from 'react-native-toast-message';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { CartContext } from '../components/CartContext';
 import useAuthRedirect from '../components/useAuthRedirect';
-
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -179,22 +179,21 @@ cartButtonText: {
     fontSize: width * 0.045,
     fontWeight: 'bold',
     // marginBottom: height * 0.01,
-  }, 
+  },
   descriptionHeader: { 
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: height * 0.01,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: height * 0.01,
   },
   descriptionHeading: {
-        fontSize: width * 0.045,
-        fontWeight: 'bold',
-        
+    fontSize: width * 0.045,
+    fontWeight: 'bold',
+    
   },
-  
-
 
 })
+
 const LabTestDetailScreen = ({route}) => {
   useAuthRedirect()
   const { addToCart } = useContext(CartContext);
@@ -212,7 +211,6 @@ const LabTestDetailScreen = ({route}) => {
   const [labTest, setLabTest] = useState(labtest);
   const [showDateTimeSlots, setShowDateTimeSlots] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-
  
   
 const getSlotsForDate = (selectedDate) => {
@@ -330,8 +328,11 @@ const isSameDay = (d1, d2) => (
       });
       return;
   }
+  const formattedDate = dayjs(selectedDate).format('M/D/YY');
+  const formattedTime = dayjs(selectedTime, 'h:mm A').format('hh:mm A');
+    
     const image = getImage()
-    addToCart({...labTest,image:image,quantity:quantity,date:selectedDate,time:selectedTime})
+    addToCart({...labTest,image:image,quantity:quantity,date:formattedDate,time:formattedTime})
     Toast.show({
       type: 'success',
       text1: 'Lab Test Added to Cart!',
@@ -346,7 +347,6 @@ const isSameDay = (d1, d2) => (
   const toggleDescription = () => { 
     setShowDescription(prev => !prev);
   };
-
     return(
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={styles.scrollViewContent}>
@@ -388,21 +388,22 @@ const isSameDay = (d1, d2) => (
 
             </View>
 
-              <View style={styles.descriptionContainer}>
-                <View style={styles.descriptionHeader}> 
-                    <Text style={styles.descriptionHeading}>Description</Text>
-                    <Pressable onPress={toggleDescription} style={{ padding: 5 }}> 
-                        <Icon
-                            name={showDescription ? "chevron-up" : "chevron-down"} 
-                            size={28}
-                            color="#475569"
-                        />
-                    </Pressable>
-                </View>
-                {showDescription && ( 
-                    <View style={styles.descriptionBox}>
-                        <Text style={styles.descriptionText}>{labTest.description}</Text>
-                    </View>
+            <View style={styles.descriptionContainer}>
+              <View style={styles.descriptionHeader}>
+                <Text style={styles.descriptionHeading}>Description</Text>
+                <Pressable onPress={toggleDescription} style={{ padding: 5 }}>
+                  <Icon 
+                    name={showDescription ? "chevron-up" : "chevron-down"} 
+                    size={28}
+                    color="#475569"
+                  />
+                </Pressable>
+              </View>
+                
+                {showDescription && (
+                  <View style={styles.descriptionBox}>
+                      <Text style={styles.descriptionText}>{labTest.description}</Text>
+                  </View>
                 )}
             </View>
 

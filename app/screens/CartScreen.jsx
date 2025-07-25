@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useContext } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -285,10 +286,7 @@ const CartScreen = ({ route, navigation }) => {
 
                                 <View style={styles.dateTimeContainer}>
                                     <Text style={styles.dateTimeText}>
-                                        {new Date(labtest.date).toLocaleDateString('en-US', {
-                                        weekday: 'short',
-                                        month: 'short',
-                                        day: 'numeric',})}
+                                        {dayjs(labtest.date, 'M/D/YY').format('ddd, MMM D')}
                                     </Text>
                                     <Text style={styles.dateTimeText}>{labtest.time}</Text>
                                 </View>
