@@ -37,23 +37,29 @@ const OrderCard = ({ order }) => {
 
       {/* Items List */}
       {order.items.map((item, index) => (
-        <View key={index} style={styles.itemRow}>
-          <View style={{ width: 220 }}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <View style={styles.pillsRow}>
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>Date: {item.date}</Text>
-              </View>
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>Time: {item.time}</Text>
+        <View key={index}>
+          <View style={styles.itemRow}>
+            <View style={{ width: 220 }}>
+              <Text style={styles.itemName}>{item.name}</Text>
+              <View style={styles.pillsRow}>
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>Date: {item.date}</Text>
+                </View>
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>Time: {item.time}</Text>
+                </View>
               </View>
             </View>
+            <Text style={styles.itemQty}>
+              {item.quantity} x {item.price}
+            </Text>
           </View>
-          <Text style={styles.itemQty}>
-            {item.quantity} x {item.price}
-          </Text>
+          
+          {/* Divider between item rows */}
+          {index < order.items.length - 1 && <View style={styles.divider} />}
         </View>
       ))}
+
 
       {/* Divider */}
       <View style={styles.divider} />
