@@ -40,7 +40,7 @@ const CategoryBox = ({name,image,onPress})=>{
 
     <View >
 
-      <TouchableOpacity  style={styles.container}  onPress={onPress} >
+      <TouchableOpacity activeOpacity={1}  style={styles.container}  onPress={onPress} >
           
           <View style={styles.box} >
             <Image source={image} style={styles.img} resizeMode="contain" />

@@ -103,7 +103,7 @@ const SearchResults = ({navigation})=>{
           <View style={styles.container} >
 
             <View style={styles.bar} >
-              <TextInput placeholder='Search name' value={searchInput} onChangeText={(value)=>(setSearchInput(value.trim()))} maxLength={100} style={styles.input} />
+              <TextInput placeholder='Search lab test' value={searchInput} onChangeText={(value)=>(setSearchInput(value.trim()))} maxLength={100} style={styles.input} />
               <Ionicons name="search" size={20} color="gray" />
             </View>
 

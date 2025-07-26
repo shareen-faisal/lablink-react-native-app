@@ -53,7 +53,7 @@ export default function LabTestBox({name,image,price,onPress}) {
 
 
   return (
-    <TouchableOpacity onPress={onPress} >
+    <TouchableOpacity activeOpacity={1} onPress={onPress} >
 
       <View style={styles.container} >
               <Image  style={styles.image} source={image} ></Image>

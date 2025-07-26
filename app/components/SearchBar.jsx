@@ -28,7 +28,7 @@ const SearchBar = ({isEditable, onPress, searchTerm, onchangeText})=>{
     <TouchableOpacity onPress={onPress} activeOpacity={!isEditable ? 0.7 : 1}>
 
       <View style={styles.container} >
-        <TextInput placeholder='Search name' value={searchTerm} onchangeText={onchangeText}   editable={isEditable}   pointerEvents={!isEditable ? 'none' : 'auto'} style={styles.input} />
+        <TextInput placeholder='Search lab test' value={searchTerm} onchangeText={onchangeText}   editable={isEditable}   pointerEvents={!isEditable ? 'none' : 'auto'} style={styles.input} />
 
          <Ionicons name="search" size={20} color="gray" />
       </View>
