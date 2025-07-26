@@ -16,17 +16,73 @@ const Customer_Signup = () => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber,setPhoneNumber] = useState('')
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [hideConfirmPass, setHideConfirmPass] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const submitHandler = async () => {
-    if (!username || !email || !password || !confirmPassword) {
+    if (!username || !email || !password || !confirmPassword  || !phoneNumber) {
       Toast.show({
         type: 'error',
         text1: 'All fields are required!',
+      });
+      return;
+    }
+
+    const usernameRegex = /^[a-zA-Z ]+$/; 
+    if (!usernameRegex.test(username)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Name must contain only alphabets.',
+      });
+      return; 
+    }
+
+    if (username.length>30) {
+      Toast.show({
+        type: 'error',
+        text1: 'Name should not be greater than 30 characters!',
+      });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter a valid email address!',
+      });
+      return;
+    }
+
+    const containsOnlyDigits = /^[0-9]+$/.test(phoneNumber);
+    if (!containsOnlyDigits) {
+      Toast.show({
+        type: 'error',
+        text1: 'Phone number must contain only numbers.',
+      });
+      return; 
+    }
+
+    if (phoneNumber.length !== 11) {
+      Toast.show({
+        type: 'error',
+        text1: 'Phone number must be exactly 11 digits long.',
+      });
+      return;
+    }
+
+    if (password.length<6) {
+      Toast.show({
+        type: 'error',
+        text1: 'Length of password should be atleast 6!',
       });
       return;
     }
@@ -70,7 +126,7 @@ const Customer_Signup = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email }),
+        body: JSON.stringify({ username, email,phoneNumber }),
       });
       setLoading(false);
       navigation.reset({
@@ -116,6 +172,14 @@ const Customer_Signup = () => {
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
+        />
+
+        <AppInput
+          icon="call-outline" 
+          placeholder="Enter your phone number"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType="phone-pad"
         />
 
         <PasswordInput
