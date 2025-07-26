@@ -12,7 +12,7 @@ const BottomLoginText = () => {
         style={styles.loginLink}
         onPress={() => navigation.navigate('Forget Password')}
       >
-        Forget Password
+        Forgot Password
       </Text>
     </Text>
   );

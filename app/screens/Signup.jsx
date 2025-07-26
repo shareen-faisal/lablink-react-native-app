@@ -14,7 +14,7 @@ import PrimaryButton from '../components/PrimaryButton';
 const Customer_Signup = () => {
   const navigation = useNavigation();
 
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('')
   const [password, setPassword] = useState('');
@@ -29,7 +29,7 @@ const Customer_Signup = () => {
   };
 
   const submitHandler = async () => {
-    if (!username || !email || !password || !confirmPassword  || !phoneNumber) {
+    if (!name || !email || !password || !confirmPassword  || !phoneNumber) {
       Toast.show({
         type: 'error',
         text1: 'All fields are required!',
@@ -37,8 +37,8 @@ const Customer_Signup = () => {
       return;
     }
 
-    const usernameRegex = /^[a-zA-Z ]+$/; 
-    if (!usernameRegex.test(username)) {
+    const nameRegex = /^[a-zA-Z ]+$/; 
+    if (!nameRegex.test(name)) {
       Toast.show({
         type: 'error',
         text1: 'Name must contain only alphabets.',
@@ -46,7 +46,7 @@ const Customer_Signup = () => {
       return; 
     }
 
-    if (username.length>30) {
+    if (name.length>30) {
       Toast.show({
         type: 'error',
         text1: 'Name should not be greater than 30 characters!',
@@ -97,6 +97,27 @@ const Customer_Signup = () => {
 
     setLoading(true);
     try {
+
+      const usersResponse = await fetch(`${BASE_URL}/users.json`);
+      if (!usersResponse.ok) {
+        throw new Error('Failed to fetch existing users for phone number check.');
+      }
+      const existingUsers = await usersResponse.json();
+
+      if (existingUsers) {
+        const phoneNumberExists = Object.values(existingUsers).some(
+          (user) => user.phoneNumber === phoneNumber
+        );
+        if (phoneNumberExists) {
+          Toast.show({
+            type: 'error',
+            text1: 'This phone number is already registered!',
+          });
+          setLoading(false);
+          return;
+        }
+      }
+
       const response = await fetch(FIREBASE_AUTH_SIGNUP_URL, {
         method: 'POST',
         headers : {
@@ -126,7 +147,7 @@ const Customer_Signup = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email,phoneNumber }),
+        body: JSON.stringify({ name: name, email,phoneNumber }),
       });
       setLoading(false);
       navigation.reset({
@@ -161,9 +182,10 @@ const Customer_Signup = () => {
 
         <AppInput
           icon="person-outline"
-          placeholder="Enter your username"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="Enter your name"
+          value={name}
+          onChangeText={setName}
+          keyboardType='default'
         />
 
         <AppInput

@@ -86,12 +86,12 @@ const OrderSummary = ({ visible, onClose, navigation, order }) => {
         <View style={styles.onTopView}>
              <View style={styles.modalContainer}>
                 <Image style={styles.modalIcon} source={require('../../assets/images/orderDone.png')} />
-                <Text style={styles.title}>Thank you for your Order</Text>
+                <Text style={styles.title}>Thank you for your Booking</Text>
 
                     <View>
-                        <Text style={styles.detailText}>Order Number: {order?.orderNumber} </Text>
-                        <Text style={styles.detailText}>Order Date: {order?.orderDate}</Text>
-                        <Text style={styles.detailText}>Order Time: {order?.orderTime}</Text>
+                        <Text style={styles.detailText}>Booking Number: {order?.orderNumber} </Text>
+                        <Text style={styles.detailText}>Booking Date: {order?.orderDate}</Text>
+                        <Text style={styles.detailText}>Booking Time: {order?.orderTime}</Text>
                     </View>
 
                     <Pressable style={styles.button} onPress={handleContinue}>

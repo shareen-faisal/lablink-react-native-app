@@ -271,7 +271,7 @@ const CheckoutScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.summaryBox}>
-        <Text style={styles.summaryTitle}>Order Summary</Text>
+        <Text style={styles.summaryTitle}>Booking Summary</Text>
 
         <View style={styles.summaryContent}>
           <Text>Items</Text>
@@ -300,7 +300,7 @@ const CheckoutScreen = ({ navigation }) => {
         <ActivityIndicator size="large" color="#3b7cff" style={{ marginTop: 20 }} />
       ) : (
         <Pressable style={styles.confirmButton} onPress={handleSubmit}>
-          <Text style={styles.confirmButtonText}>Confirm Order</Text>
+          <Text style={styles.confirmButtonText}>Confirm Booking</Text>
         </Pressable>
       )}
 

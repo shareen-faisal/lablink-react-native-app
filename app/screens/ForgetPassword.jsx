@@ -23,7 +23,7 @@ const Customer_ForgetPassword = () => {
     if (!isEmailValid(email)) {
       Toast.show({
         type: 'error',
-        text1: 'Invalid email',
+        text1: 'Invalid email format.',
       });
       return;
     }

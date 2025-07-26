@@ -24,8 +24,9 @@ const ProfileView = () => {
   const navigation = useNavigation();
 
   const [name, setName] = useState('');
-  const [username, setUsername] = useState(''); 
+  // const [username, setUsername] = useState(''); 
   const [email, setEmail] = useState('');
+  const [phoneNumber,setPhoneNumber] = useState('')
   const [loading, setLoading] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
 
@@ -35,22 +36,26 @@ const ProfileView = () => {
     const loadData = async () => {
       try {
         setProfileLoading(true);
-        const storedUsername = await AsyncStorage.getItem('username');
+        const storedName = await AsyncStorage.getItem('name');
         const storedEmail = await AsyncStorage.getItem('userEmail');
         const storedUserId = await AsyncStorage.getItem('userId');
+        const storedPhoneNumber = await AsyncStorage.getItem('phoneNumber')
         if (storedEmail) {
           setEmail(storedEmail);
         }
-        if (storedUsername) {
-          setUsername(storedUsername);
+        if (storedName) {
+          setName(storedName);
         }
         if (storedUserId) {
           setUserId(storedUserId);
-          const response = await fetch(`${BASE_URL}/users/${storedUserId}/name.json`);
-          const fetchName = await response.json();
-          if (fetchName) {
-            setName(fetchName);
-          }
+          // const response = await fetch(`${BASE_URL}/users/${storedUserId}/name.json`);
+          // const fetchName = await response.json();
+          // if (fetchName) {
+          //   setName(fetchName);
+          // }
+        }
+        if(storedPhoneNumber){
+          setPhoneNumber(storedPhoneNumber)
         }
       } catch (error) {
         Toast.show({
@@ -65,10 +70,27 @@ const ProfileView = () => {
   },[]);
 
   const handleSave = async () => {
-    if (!name) {
+    if (!name ) {
       Toast.show({
         type: 'error',
         text1: 'All fields must be filled!',
+      });
+      return;
+    }
+
+    const nameRegex = /^[a-zA-Z ]+$/; 
+    if (!nameRegex.test(name)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Name must contain only alphabets.',
+      });
+      return; 
+    }
+
+    if (name.length>30) {
+      Toast.show({
+        type: 'error',
+        text1: 'Name should not be greater than 30 characters!',
       });
       return;
     }
@@ -103,16 +125,16 @@ const ProfileView = () => {
   };
 
   const storeName = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/users/${userId}/name.json`);
-      const fetchedName = await response.json();
+    // try {
+    //   const response = await fetch(`${BASE_URL}/users/${userId}/name.json`);
+    //   const fetchedName = await response.json();
       
-      if (fetchedName) {
-        await AsyncStorage.setItem('name', fetchedName);
-      }
-    } catch (error) {
-      console.error('Failed to fetch name:', error)
-    }
+      // if (fetchedName) {
+        await AsyncStorage.setItem('name', name);
+      // }
+    // } catch (error) {
+    //   console.error('Failed to fetch name:', error)
+    // }
   }
 
   return (
@@ -138,16 +160,24 @@ const ProfileView = () => {
 
             <IconInput
               icon="person-circle-outline"
-              placeholder={"Enter your full name"}
+              placeholder={"Enter your name"}
               value={name}
               onChangeText={setName}
             />
 
-            <IconInput
+            {/* <IconInput
               icon="person-outline"
               placeholder={"Username"}
               value={username}
               editable={false} 
+            /> */}
+
+            <IconInput
+              icon="call-outline" 
+              placeholder="Enter your phone number"
+              value={phoneNumber}
+              editable={false}
+              keyboardType="phone-pad"
             />
 
             <IconInput

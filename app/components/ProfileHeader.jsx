@@ -5,27 +5,25 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 
 
 const ProfileHeader = () => {
-  const [username, setUsename] = useState('');
+  const [name, setName] = useState('');
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchName = async () => {
       try {
-        const storedUsername = await AsyncStorage.getItem('username');
+        // const storedUsername = await AsyncStorage.getItem('username');
         const storedName = await AsyncStorage.getItem('name');
         if (storedName && storedName.trim() !== '') {
-          setUsename(storedName);
-        } else if (storedUsername) {
-          setUsename(storedUsername);
-        } else {
-          setUsename('Unknown User');
+          setName(storedName);
+        }  else {
+          setName('Unknown User');
         }
       } catch (error) {
         console.error('Failed to load username: ', error);
       }
     };
     if (isFocused) {
-      fetchUsername();
+      fetchName();
     }
   },[isFocused]);
 
@@ -39,7 +37,7 @@ const ProfileHeader = () => {
           style={styles.avatar}
         />
       </View>
-      <Text style={styles.name}>{username}</Text>
+      <Text style={styles.name}>{name}</Text>
     </View>
   );
 };

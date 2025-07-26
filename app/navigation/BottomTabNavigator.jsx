@@ -84,7 +84,7 @@ const BottomTabNavigator = ()=>{
         >
             <Tab.Screen  options={{tabBarLabel:'Home'}} name="HomeTab" component={HomeStack} />
             <Tab.Screen  options={{tabBarLabel:'Cart'}} name="CartTab" component={CartStack}   />
-            <Tab.Screen  options={{tabBarLabel:'Orders'}} name='OrdersTab' component={OrdersStack} />
+            <Tab.Screen  options={{tabBarLabel:'Bookings'}} name='OrdersTab' component={OrdersStack} />
             <Tab.Screen  options={{tabBarLabel:'Profile'}} name="ProfileTab" component={ProfileStack}   />
 
         </Tab.Navigator>

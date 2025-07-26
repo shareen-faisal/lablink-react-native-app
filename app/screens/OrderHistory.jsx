@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Text,
   useWindowDimensions,
-  View,
+  View
 } from 'react-native';
 
 dayjs.extend(customParseFormat);
@@ -170,7 +170,7 @@ const OrderHistory = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>Order History</Text>
+      <Text style={styles.header}>Booking History</Text>
 
       <View style={styles.filterContainer}>
         {['all', 'pending', 'completed'].map((type) => (
@@ -192,7 +192,7 @@ const OrderHistory = () => {
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : filteredOrders.length === 0 ? (
-        <Text style={{ textAlign: 'center', marginTop: 20 }}>No {filter} orders found.</Text>
+        <Text style={{ textAlign: 'center', marginTop: 20 }}>No {filter} bookings found.</Text>
       ) : (
         <View style={styles.cardWrapper}>
           {filteredOrders.map((order) => (

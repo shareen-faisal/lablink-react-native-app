@@ -31,7 +31,7 @@ const OrderCard = ({ order }) => {
     <View style={styles.card}>
       {/* Top: Order ID & Date */}
       <View style={styles.rowBetween}>
-        <Text style={styles.orderNo}>Order No: {order.id}</Text>
+        <Text style={styles.orderNo}>Booking No: {order.id}</Text>
         <Text style={styles.date}>{order.date}</Text>
       </View>
 

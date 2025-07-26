@@ -46,7 +46,12 @@ export default function CartProvider({children }) {
     
     const addToCart=(item)=>{
         setCart((p)=>{
-            const isPressent = p.findIndex((temp)=>(temp.name===item.name && temp.date.getDate()===item.date.getDate() && temp.date.getMonth()===item.date.getMonth() && temp.time===item.time));
+            // const isPressent = p.findIndex((temp)=>(temp.name===item.name && temp.date.getDate()===item.date.getDate() && temp.date.getMonth()===item.date.getMonth() && temp.time===item.time));
+            const isPressent = p.findIndex((temp) => (
+              temp.name === item.name && 
+              temp.date === item.date && 
+              temp.time === item.time
+            ));
             if(isPressent!==-1){
                 const updated = [...p];
                 updated[isPressent]={...updated[isPressent], quantity: updated[isPressent].quantity+item.quantity};

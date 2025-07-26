@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
 import React, { useContext } from "react";
 import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { CartContext } from '../components/CartContext';
@@ -295,7 +295,7 @@ const CartScreen = ({ route, navigation }) => {
 
     
                         <View style={styles.orderSummaryBox}>
-                            <Text style={styles.summaryHeading}>Order Summary</Text>
+                            <Text style={styles.summaryHeading}>Booking Summary</Text>
 
                             <View style={styles.summaryRow}>
                                 <Text style={styles.summaryLabel}>Items</Text>

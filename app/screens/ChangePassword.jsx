@@ -41,6 +41,14 @@ const ChangePassword = () => {
       return;
     }
 
+    if (newPassword.length<6) {
+      Toast.show({
+        type: 'error',
+        text1: 'Length of new password should be atleast 6!',
+      });
+      return;
+    }
+
     if (newPassword !== confirmNewPassword) {
       Toast.show({
         type: 'error',
@@ -80,8 +88,12 @@ const ChangePassword = () => {
       const signInData = await signInResponse.json();
 
       if (!signInResponse.ok) {
+        if (signInData.error?.message === 'INVALID_PASSWORD' || signInData.error?.message === 'EMAIL_NOT_FOUND' || signInData.error?.message === 'INVALID_LOGIN_CREDENTIALS') {
+          throw new Error('Old password is incorrect.');
+        }
         throw new Error(signInData.error?.message || 'Re-authentication failed');
       }
+      
       const idToken = signInData.idToken;
 
       const changePasswordResponse = await fetch(FIREBASE_AUTH_CHANGEPASSWORD_URL, {
@@ -198,7 +210,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#3b7cff',
+    color: 'black',
     marginTop: 8,
     marginBottom: 20,
     textAlign: 'center',
