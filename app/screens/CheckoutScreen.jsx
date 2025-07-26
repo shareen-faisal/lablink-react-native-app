@@ -284,7 +284,7 @@ const CheckoutScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.summaryContent}>
-          <Text>Delivery charges</Text>
+          <Text>Rider charges</Text>
           <Text>Rs 150</Text>
         </View>
 
