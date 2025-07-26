@@ -385,20 +385,20 @@ const LabTestDetailScreen = ({route}) => {
             <View style={styles.descriptionContainer}>
               <View style={styles.descriptionHeader}>
                 <Text style={styles.descriptionHeading}>Description</Text>
-                <Pressable onPress={toggleDescription} style={{ padding: 5 }}>
+                {/* <Pressable onPress={toggleDescription} style={{ padding: 5 }}>
                   <Icon 
                     name={showDescription ? "chevron-up" : "chevron-down"} 
                     size={28}
                     color="#475569"
                   />
-                </Pressable>
+                </Pressable> */}
               </View>
                 
-                {showDescription && (
+                {/* {showDescription && ( */}
                   <View style={styles.descriptionBox}>
                       <Text style={styles.descriptionText}>{labTest.description}</Text>
                   </View>
-                )}
+                {/* )} */}
             </View>
 
 
