@@ -308,7 +308,7 @@ const CartScreen = ({ route, navigation }) => {
                             </View>
 
                             <View style={styles.summaryRow}>
-                                <Text style={styles.summaryLabel}>Delivery charges</Text>
+                                <Text style={styles.summaryLabel}>Rider charges</Text>
                                 <Text style={styles.summaryValue}>Rs {delivery}</Text>
                             </View>
                         </View>

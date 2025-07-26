@@ -72,34 +72,15 @@ const styles = StyleSheet.create({
 const OrderSummary = ({ visible, onClose, navigation, order }) => {
   useAuthRedirect()
 
-    // const navigation = useNavigation();
-
-  //   const handleContinue = () => {
-  //   onClose();
-  //   // navigation.reset({
-  //   //   index: 0,
-  //   //   routes: [{ name: 'Home' }],
-  //   // });
-  //   navigation.navigate('Home')
-  // };
-
   const handleContinue = () => {
     onClose();
-    // navigation.navigate('HomeTab', {
-    //   screen: 'Home',
-    // });
+   
     navigation.reset({
       index: 0,
       routes: [{ name: 'HomeTab' }],
     });
   };
   
-
-  // const handleContinue = () => {
-  //   onClose();
-  //   navigation.navigate('Home');
-  // };
-
   return (
     <Modal transparent visible={visible} animationType='fade' onRequestClose={onClose}>
         <View style={styles.onTopView}>
@@ -114,7 +95,7 @@ const OrderSummary = ({ visible, onClose, navigation, order }) => {
                     </View>
 
                     <Pressable style={styles.button} onPress={handleContinue}>
-                        <Text style={styles.buttonText}>Continue Shopping</Text>
+                        <Text style={styles.buttonText}>Book Another Test</Text>
                     </Pressable>
              </View>
         </View>
