@@ -18,7 +18,6 @@ import { CartContext } from '../components/CartContext';
 import useAuthRedirect from '../components/useAuthRedirect';
 import OrderSummary from './OrderSummary';
 
-// 🕒 Dayjs setup
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -139,93 +138,105 @@ const CheckoutScreen = ({ navigation }) => {
   const cities = ['Gujranwala', 'Karachi', 'Lahore', 'Islamabad'];
 
   const handleSubmit = async () => {
-    if (!street && !selectedCity) {
-      Toast.show({
-        type: 'error',
-        text1: 'Please fill street address and city',
+
+    try{
+      if (!street && !selectedCity) {
+        Toast.show({
+          type: 'error',
+          text1: 'Please fill street address and city',
+        });
+        return;
+      }
+
+      if (!street) {
+        Toast.show({
+          type: 'error',
+          text1: 'Street address is required',
+        });
+        return;
+      }
+
+      if (!selectedCity) {
+        Toast.show({
+          type: 'error',
+          text1: 'Please select a city',
+        });
+        return;
+      }
+
+      setLoading(true);
+
+      const userId = await AsyncStorage.getItem('userId');
+      const userToken = await AsyncStorage.getItem('userToken');
+
+      if (!userId || !userToken) {
+        console.warn('User not logged in or token missing');
+        return;
+      }
+
+      const orderNumberResponse = await fetch(`${BASE_URL}/lastOrderNumber.json`, {
+        method: 'PUT',
+        body: JSON.stringify({ '.sv': { increment: 1 } }),
       });
-      return;
-    }
+      const newOrderNumber = await orderNumberResponse.json();
 
-    if (!street) {
-      Toast.show({
-        type: 'error',
-        text1: 'Street address is required',
+      const now = dayjs(); 
+      const formattedDate = now.format('M/D/YY');
+      const formattedTime = now.format('hh:mm A');
+      const order = {
+        orderNumber: `#${newOrderNumber}`,
+        address: street,
+        city: selectedCity,
+        orderDate: formattedDate,
+        orderTime: formattedTime,
+        items: cart.map((item) => {
+          return{
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            date: item.date,
+            time: item.time,
+          };
+        }),
+        subtotal: subTotal,
+        deliveryCharges: 150,
+        total: total,
+        status: 'pending',
+      };
+
+      const response = await fetch(`${BASE_URL}/Orders/${userId}.json?auth=${userToken}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
       });
-      return;
-    }
 
-    if (!selectedCity) {
-      Toast.show({
-        type: 'error',
-        text1: 'Please select a city',
-      });
-      return;
-    }
+      if (response.ok) {
+        setLoading(false);
+        setLatestOrder(order);
+        setModalVisible(true);
+        setSelectedCity('');
+        setStreet('');
+        clearCart();
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to place order',
+        });
+      }
 
-    setLoading(true);
+  }catch (error) {
+    console.error('Error placing order:', error);
+    Toast.show({ type: 'error', text1: 'An unexpected error occurred' });
+  } finally {
+    setLoading(false);
+  }
 
-    const userId = await AsyncStorage.getItem('userId');
-    const userToken = await AsyncStorage.getItem('userToken');
 
-    if (!userId || !userToken) {
-      console.warn('User not logged in or token missing');
-      return;
-    }
 
-    const orderNumberResponse = await fetch(`${BASE_URL}/lastOrderNumber.json`, {
-      method: 'PUT',
-      body: JSON.stringify({ '.sv': { increment: 1 } }),
-    });
-    const newOrderNumber = await orderNumberResponse.json();
-
-    const now = dayjs(); 
-    const formattedDate = now.format('M/D/YY');
-    const formattedTime = now.format('hh:mm A');
-    const order = {
-      orderNumber: `#${newOrderNumber}`,
-      address: street,
-      city: selectedCity,
-      orderDate: formattedDate,
-      orderTime: formattedTime,
-      items: cart.map((item) => {
-        return{
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-          date: item.date,
-          time: item.time,
-        };
-      }),
-      subtotal: subTotal,
-      deliveryCharges: 150,
-      total: total,
-      status: 'pending',
-    };
-
-    const response = await fetch(`${BASE_URL}/Orders/${userId}.json?auth=${userToken}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(order),
-    });
-
-    if (response.ok) {
-      setLoading(false);
-      setLatestOrder(order);
-      setModalVisible(true);
-      setSelectedCity('');
-      setStreet('');
-      clearCart();
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Failed to place order',
-      });
-    }
   };
 
   return (
@@ -238,13 +249,7 @@ const CheckoutScreen = ({ navigation }) => {
         <Icon name="location-outline" size={18} color="#407CE2" />
         <Text style={styles.label}>Street Address</Text>
       </View>
-      <TextInput
-        placeholder="Enter street address"
-        style={styles.inputField}
-        value={street}
-        onChangeText={setStreet}
-        maxLength={100}
-      />
+      <TextInput  placeholder="Enter street address"  style={styles.inputField}  value={street}  onChangeText={setStreet}  maxLength={100}/>
 
       <View style={styles.inputGroup}>
         <Icon name="home-outline" size={18} color="#407CE2" />
@@ -252,11 +257,7 @@ const CheckoutScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.pickerBox}>
-        <Picker
-          selectedValue={selectedCity}
-          onValueChange={(itemValue) => setSelectedCity(itemValue)}
-          style={styles.picker}
-        >
+        <Picker selectedValue={selectedCity} onValueChange={(itemValue) => setSelectedCity(itemValue)} style={styles.picker} >
           <Picker.Item label="Select City" value="" enabled={false} color="#9CA3AF" />
           {cities.map((city, index) => (
             <Picker.Item key={index} label={city} value={city} color="#000000" />
@@ -304,12 +305,7 @@ const CheckoutScreen = ({ navigation }) => {
         </Pressable>
       )}
 
-      <OrderSummary
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        navigation={navigation}
-        order={latestOrder}
-      />
+      <OrderSummary visible={modalVisible} onClose={() => setModalVisible(false)} navigation={navigation} order={latestOrder} />
     </ScrollView>
   );
 };
