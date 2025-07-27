@@ -12,29 +12,35 @@ export default function OrdersInsight() {
   }, [totalOrders, pendingOrders, completedOrders]);
 
   const handleOrderNumber =async () => {
-    let total = 0;
-    let pending = 0;
-    let completed = 0;
+    try{
+      let total = 0;
+      let pending = 0;
+      let completed = 0;
 
-    const orders = await fetch('https://lablink-trial-default-rtdb.firebaseio.com/Orders.json');
-    const data = await orders.json();
-    for(const userId in data){
-       const userOrders = data[userId];
-      for(const orderId in userOrders){
-        total += 1;
-        if(userOrders[orderId].status === 'pending'){
-          pending +=1;
-        }else{
-          completed +=1;
+      const orders = await fetch('https://lablink-trial-default-rtdb.firebaseio.com/Orders.json');
+      const data = await orders.json();
+      for(const userId in data){
+        const userOrders = data[userId];
+        for(const orderId in userOrders){
+          total += 1;
+          if(userOrders[orderId].status === 'pending'){
+            pending +=1;
+          }else{
+            completed +=1;
+          }
+        
         }
-      
       }
+      setTotalOrders(total);
+      setPendingOrders(pending);
+      setCompletedOrders(completed);
+     
+  } catch (error) {
+    console.error('Error fetching order numbers:', error);
+    Toast.show({ type: 'error', text1: 'Failed to load order stats' });
     }
-    setTotalOrders(total);
-    setPendingOrders(pending);
-    setCompletedOrders(completed);
 
-  }
+  } 
 
  
 

@@ -27,37 +27,43 @@ export default function LabTestsInsight() {
       }, [testCounts])
     
       const handleCategories = async () => {
+        try{
 
-        const counts = {
-            heartHealth: 0,
-            kidney: 0,
-            diabetes: 0,
-            blood: 0,
-            liver: 0
-          };
-        let totalTests = 0;
-    
-        const labTests = await fetch('https://lablink-trial-default-rtdb.firebaseio.com/labTests.json');
-        const data = await labTests.json();
-    
-        for(const labTest in data){
-            if(data[labTest].category === 'Blood Tests'){
-                counts.blood += 1;
-            }else if(data[labTest].category === 'Diabetes Tests'){
-                counts.diabetes += 1;
-            }else if(data[labTest].category === 'Heart Health Tests'){
-                counts.heartHealth += 1;
-            }else if(data[labTest].category ===  'Liver Function Tests'){
-                counts.liver += 1;
-            }else if(data[labTest].category === 'Kidney Tests'){
-                counts.kidney += 1;
+            const counts = {
+                heartHealth: 0,
+                kidney: 0,
+                diabetes: 0,
+                blood: 0,
+                liver: 0
+            };
+            let totalTests = 0;
+        
+            const labTests = await fetch('https://lablink-trial-default-rtdb.firebaseio.com/labTests.json');
+            const data = await labTests.json();
+        
+            for(const labTest in data){
+                if(data[labTest].category === 'Blood Tests'){
+                    counts.blood += 1;
+                }else if(data[labTest].category === 'Diabetes Tests'){
+                    counts.diabetes += 1;
+                }else if(data[labTest].category === 'Heart Health Tests'){
+                    counts.heartHealth += 1;
+                }else if(data[labTest].category ===  'Liver Function Tests'){
+                    counts.liver += 1;
+                }else if(data[labTest].category === 'Kidney Tests'){
+                    counts.kidney += 1;
+                }
+
+                totalTests += 1;
             }
+        
+            setTestCounts(counts);
+            setTotalLabTests(totalTests);
 
-            totalTests += 1;
+        } catch (error) {
+            console.error('Error fetching lab test categories:', error);
+            Toast.show({ type: 'error', text1: 'Failed to load test categories' });
         }
-    
-       setTestCounts(counts);
-       setTotalLabTests(totalTests);
           
       }
 
