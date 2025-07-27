@@ -27,6 +27,7 @@ const Customer_Login = () => {
   const [hidePass, setHidePass] = useState(true);
   const [loading, setLoading] = useState(false);
   const {setCart} = useContext(CartContext)
+  const { fetchAuthTokens } = useContext(CartContext); 
 
   const navigation = useNavigation();
 
@@ -104,6 +105,8 @@ const Customer_Login = () => {
       await AsyncStorage.setItem('name', name);
       await AsyncStorage.setItem('phoneNumber', phoneNumber);
 
+      await fetchAuthTokens();
+
       // const fetchCart = async ()=>{
       //   const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
       //   const data = await response.json()
@@ -119,28 +122,28 @@ const Customer_Login = () => {
       // }
       // await fetchCart()
 
-      const fetchCart = async ()=>{
-        try {
-          const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
-          if (!response.ok) {
-            console.error(`Failed to fetch cart.`);
-            setCart([]);
-            return;
-          }
-          const data = await response.json()
-          setCart(
-                (data || []).map(item => ({
-                  ...item,
-                  // date: new Date(item.date),
-                  date: item.date,
-                }))
-          );
-        } catch (error) {
-          console.error("Error fetching cart:", error);
-          setCart([]);
-        }
-      }
-      await fetchCart()
+      // const fetchCart = async ()=>{
+      //   try {
+      //     const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
+      //     if (!response.ok) {
+      //       console.error(`Failed to fetch cart.`);
+      //       setCart([]);
+      //       return;
+      //     }
+      //     const data = await response.json()
+      //     setCart(
+      //           (data? Object.values(data) : []).map(item => ({
+      //             ...item,
+      //             // date: new Date(item.date),
+      //             date: item.date,
+      //           }))
+      //     );
+      //   } catch (error) {
+      //     console.error("Error fetching cart:", error);
+      //     setCart([]);
+      //   }
+      // }
+      // await fetchCart()
 
       Toast.show({ 
         type: 'success',
