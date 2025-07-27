@@ -276,7 +276,7 @@ const CheckoutScreen = ({ navigation }) => {
 
         <View style={styles.summaryContent}>
           <Text>Items</Text>
-          <Text>{cart.length}</Text>
+          <Text>{cart.reduce((total,item)=>(total+item.quantity),0)}</Text>
         </View>
 
         <View style={styles.summaryContent}>
