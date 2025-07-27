@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = async () => {
-    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail', 'username']);
+    await AsyncStorage.multiRemove(['userToken', 'userId', 'userRole', 'userEmail', 'name', 'phoneNumber']);
     Toast.show({
       type: 'success',
       text1: 'Logged out successfully!',
