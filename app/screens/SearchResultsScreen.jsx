@@ -1,12 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { BASE_URL } from '../../config';
 import LabTestList from '../components/LabTestList';
 import useAuthRedirect from '../components/useAuthRedirect';
-
-
-
 
 const SearchResults = ({navigation})=>{
   useAuthRedirect()
@@ -43,24 +41,36 @@ const SearchResults = ({navigation})=>{
   
     try {
       const response = await fetch(`${BASE_URL}/labTests.json`);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch lab tests.`);
+      }
+      
       const data = await response.json();
   
       const tempArray = [];
-      for (const key in data) {
-        tempArray.push({
-          id: key,
-          name: data[key].name,
-          price: data[key].price,
-          turnAroundTime: data[key].turnAroundTime,
-          sampleType: data[key].sampleType,
-          category: data[key].category,
-          description: data[key].description
-        });
-      }
+      if(data){
+        for (const key in data) {
+          tempArray.push({
+            id: key,
+            name: data[key].name,
+            price: data[key].price,
+            turnAroundTime: data[key].turnAroundTime,
+            sampleType: data[key].sampleType,
+            category: data[key].category,
+            description: data[key].description
+          });
+        }
+    }
   
       setLabtests(tempArray);
     } catch (error) {
-      console.error("Error fetching lab tests:", error);
+        console.error("Error fetching lab tests:", error);
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to load lab tests.',
+          text2: 'Please check your internet connection or try again later.',
+        });
     } finally {
       setLoading(false);
     }

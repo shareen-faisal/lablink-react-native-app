@@ -134,7 +134,10 @@ const Customer_Signup = () => {
       const data = await response.json();
       
       if (!response.ok) {
-        const errorMessage = data.error?.message || 'Something went wrong!';
+        let errorMessage = data.error?.message || 'Something went wrong!';
+        if (errorMessage === 'EMAIL_EXISTS') {
+          errorMessage = 'This email is already registered. Please use a different email or log in.';
+        }
         throw new Error(errorMessage);
       }
       

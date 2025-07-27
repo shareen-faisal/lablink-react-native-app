@@ -55,7 +55,11 @@ const Customer_Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error?.message || 'Login failed');
+        let errorMessage = data.error?.message || 'Login failed';
+        if (errorMessage === 'INVALID_LOGIN_CREDENTIALS' || errorMessage === 'EMAIL_NOT_FOUND' || errorMessage === 'INVALID_PASSWORD') {
+          errorMessage = 'Invalid email or password. Please try again.';
+        }
+        throw new Error(errorMessage);
       }
 
       // Store user token & ID in AsyncStorage
@@ -100,18 +104,41 @@ const Customer_Login = () => {
       await AsyncStorage.setItem('name', name);
       await AsyncStorage.setItem('phoneNumber', phoneNumber);
 
-      const fetchCart = async ()=>{
-        const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
-        const data = await response.json()
-        setCart(
-          (data || []).map(item => ({
-            ...item,
-            // date: new Date(item.date),
-            date: item.date,
+      // const fetchCart = async ()=>{
+      //   const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
+      //   const data = await response.json()
+      //   setCart(
+      //     (data || []).map(item => ({
+      //       ...item,
+      //       // date: new Date(item.date),
+      //       date: item.date,
 
-          }))
-        );
+      //     }))
+      //   );
         
+      // }
+      // await fetchCart()
+
+      const fetchCart = async ()=>{
+        try {
+          const response = await fetch(`${BASE_URL}/cart/${localId}.json?auth=${idToken}`)
+          if (!response.ok) {
+            console.error(`Failed to fetch cart.`);
+            setCart([]);
+            return;
+          }
+          const data = await response.json()
+          setCart(
+                (data || []).map(item => ({
+                  ...item,
+                  // date: new Date(item.date),
+                  date: item.date,
+                }))
+          );
+        } catch (error) {
+          console.error("Error fetching cart:", error);
+          setCart([]);
+        }
       }
       await fetchCart()
 
@@ -132,7 +159,7 @@ const Customer_Login = () => {
       setLoading(false);
       Toast.show({
         type: 'error',
-        text1: 'Invalid credentials',
+        text1: err.message,
       });
     }
   };

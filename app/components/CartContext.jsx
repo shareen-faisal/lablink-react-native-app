@@ -1,11 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useEffect, useState } from 'react';
+import Toast from 'react-native-toast-message';
 import { BASE_URL } from '../../config';
 
-
 export const CartContext = createContext()
-
-
 
 export default function CartProvider({children }) {
     const [cart,setCart] = useState([]);
@@ -31,12 +29,17 @@ export default function CartProvider({children }) {
         })
 
         if (!response.ok) {
-          throw new Error('Failed to store cart in DB');
+          throw new Error(`Failed to save cart.`);
         }
     
         console.log('Cart stored successfully');
       }catch(error){
         console.error('Error saving cart:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to save cart.',
+          text2: 'Please check your internet connection or try again later.',
+        });
       }
     }
 

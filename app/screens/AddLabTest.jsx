@@ -44,10 +44,10 @@ const AddLabTest = () => {
   };
 
   const validateForm = () => {
-    if (!name || !price || !turnAroundTime || !category || !sampleType.trim()) {
+    if (!name || !price || !turnAroundTime || !category || !sampleType.trim() || !description) {
       Toast.show({
         type: 'error',
-        text1: 'Please fill all required fields!',
+        text1: 'Please fill all fields!',
       });
       return false;
     }
@@ -60,6 +60,14 @@ const AddLabTest = () => {
       return false;
     }
 
+    if (price <= 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Price must be greater than 0!',
+      });
+      return false;
+    }
+
     if (isNaN(turnAroundTime)) {
       Toast.show({
         type: 'error',
@@ -68,11 +76,38 @@ const AddLabTest = () => {
       return false;
     }
 
+    if (turnAroundTime <= 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Turnaround time must be greater than 0!',
+      });
+      return false;
+    }
+
+    if (name.length > 100) { 
+      Toast.show({
+        type: 'error',
+        text1: 'Name is too long.',
+      });
+      return false;
+    }
+
+    if (description.length > 500) {
+      Toast.show({
+        type: 'error',
+        text1: `Description is too long (max 500 characters).`,
+      });
+      return false;
+    }
+
     return true;
   };
 
   const handleAdd = async () => {
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setLoading(false); 
+      return;
+    }
 
     setLoading(true);
     try {
@@ -92,6 +127,7 @@ const AddLabTest = () => {
           type: 'error',
           text1: `Test named '${name}' already exists!`,
         });
+        setLoading(false);
         return;
       }
 

@@ -45,6 +45,14 @@ const RemoveLabTest = () => {
 
   const handleChange = (text) => {
     const input = text.trim();
+
+    if (input.length > 100) {
+      Toast.show({
+        type: 'error',
+        text1: `Name cannot exceed 100 characters.`,
+      }); 
+    }
+
     setName(input);
 
     if (!input) {
@@ -66,6 +74,15 @@ const RemoveLabTest = () => {
   const handleRemove = async () => {
     setLoading(true);
     const inputName = name.trim().toLowerCase();
+    
+    if (inputName.length === 0 || inputName.length > 100) {
+      Toast.show({
+        type: 'error',
+        text1: `Please enter a valid name (1-100 characters).`,
+      });
+      return;
+    }
+
     const match = labTests.find(
       (test) => test.name?.toLowerCase() === inputName
     );
