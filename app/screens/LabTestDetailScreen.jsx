@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
   pill2: {
     backgroundColor: '#f9f9f9', 
     paddingVertical: height * 0.015,
-    paddingHorizontal: width * 0.05,
+    paddingHorizontal: width * 0.03,
     borderRadius: width * 0.05, 
     color: '#334155', 
     fontWeight: '600',
     fontSize: width * 0.037,
     textAlign: 'center',
     overflow: 'hidden',
-    width: '50%',
+    width: '60%',
     elevation: 2,
     alignSelf:'auto',
     marginBottom: height * 0.025,
@@ -365,7 +365,7 @@ const LabTestDetailScreen = ({route}) => {
 
               <View style={{ flexDirection: 'row', alignItems:'center', justifyContent:'space-between', marginTop: height * 0.02 }}>
                 
-                  <Text style={styles.pill2}>Time: {labTest.turnAroundTime} {labTest.turnAroundTime==='1' ? 'day' : 'days'}</Text>
+                  <Text style={styles.pill2}>Reporting Time: {labTest.turnAroundTime} {labTest.turnAroundTime==='1' ? 'day' : 'days'}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                       <Pressable onPress={decrementQuantity} style={{ padding: 8 }} >
                         <Icon  name="minus-circle" size={26} color="#475569"/>

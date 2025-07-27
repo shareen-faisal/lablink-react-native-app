@@ -84,6 +84,14 @@ const AddLabTest = () => {
       return false;
     }
 
+    if (turnAroundTime.includes('.') || turnAroundTime.includes(',')) {
+      Toast.show({
+          type: 'error',
+          text1: 'Turnaround time cannot be a decimal value!',
+      });
+      return false;
+  }
+
     if (name.length > 100) { 
       Toast.show({
         type: 'error',

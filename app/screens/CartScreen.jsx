@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const CartScreen = ({ route, navigation }) => {
+const CartScreen = ({ navigation }) => {
   useAuthRedirect()
 
     const { cart, removeFromCart, total, subTotal } = useContext(CartContext);
