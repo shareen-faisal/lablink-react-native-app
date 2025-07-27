@@ -21,7 +21,6 @@ export default function LabTestBox({name,image,price,onPress}) {
         image: {
             width: '50%',
             height: height * 0.08,
-            resizeMode: 'contain',
             alignSelf: 'center',
           },
           name: {
@@ -56,7 +55,7 @@ export default function LabTestBox({name,image,price,onPress}) {
     <TouchableOpacity activeOpacity={1} onPress={onPress} >
 
       <View style={styles.container} >
-              <Image  style={styles.image} source={image} ></Image>
+              <Image  style={styles.image} source={image} resizeMode='contain' />
 
               <View style={styles.rightContainer} >
                 <Text style={styles.name} numberOfLines={4} ellipsizeMode="tail" >{name}</Text>
