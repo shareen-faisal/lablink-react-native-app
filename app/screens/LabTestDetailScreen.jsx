@@ -234,7 +234,7 @@ const LabTestDetailScreen = ({route}) => {
       if (period === 'PM' && hour !== 12) hour += 12;
       if (period === 'AM' && hour === 12) hour = 0;
 
-      return hour > currentHour;
+      return hour > currentHour + 1;
     });
   };
 
