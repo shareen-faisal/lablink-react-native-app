@@ -556,7 +556,7 @@ export default function CartProvider({children }) {
   }, [cart]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalItems,clearCart,total,subTotal,setCart, fetchAuthTokens }}> {/* Expose fetchAuthTokens */}
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalItems,clearCart,total,subTotal,setCart, fetchAuthTokens }}>
     {children}
   </CartContext.Provider>
     

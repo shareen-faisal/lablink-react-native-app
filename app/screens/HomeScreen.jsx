@@ -36,13 +36,39 @@ const HomeScreen = () => {
     },
   });
 
+  // const categories = [
+  //   { id: 1, name: 'Heart Health Tests', image: require('../../assets/images/heartHealthTestCategoryImg.png') },
+  //   { id: 2, name: 'Blood Tests', image: require('../../assets/images/bloodTestCategoryImg.png') },
+  //   { id: 3, name: 'Liver Function Tests', image: require('../../assets/images/liverTestImg.png') },
+  //   { id: 4, name: 'Kidney Tests', image: require('../../assets/images/kidneyTestImg.png') },
+  //   { id: 5, name: 'Diabetes Tests', image: require('../../assets/images/diabetesTestImg.png') },
+  // ];
+
   const categories = [
-    { id: 1, name: 'Heart Health Tests', image: require('../../assets/images/heartHealthTestCategoryImg.png') },
-    { id: 2, name: 'Blood Tests', image: require('../../assets/images/bloodTestCategoryImg.png') },
-    { id: 3, name: 'Liver Function Tests', image: require('../../assets/images/liverTestImg.png') },
-    { id: 4, name: 'Kidney Tests', image: require('../../assets/images/kidneyTestImg.png') },
-    { id: 5, name: 'Diabetes Tests', image: require('../../assets/images/diabetesTestImg.png') },
+    { id: 1, name: 'Heart Health Tests', image: '../../assets/images/heartHealthTestCategoryImg.png' },
+    { id: 2, name: 'Blood Tests', image: '../../assets/images/bloodTestCategoryImg.png' },
+    { id: 3, name: 'Liver Function Tests', image: '../../assets/images/liverTestImg.png' },
+    { id: 4, name: 'Kidney Tests', image:'../../assets/images/kidneyTestImg.png' },
+    { id: 5, name: 'Diabetes Tests', image: '../../assets/images/diabetesTestImg.png' },
   ];
+
+  const resolveLocalImage = (imagePath) => {
+    switch (imagePath) {
+      case '../../assets/images/heartHealthTestCategoryImg.png':
+        return require('../../assets/images/heartHealthTestCategoryImg.png');
+      case '../../assets/images/bloodTestCategoryImg.png':
+        return require('../../assets/images/bloodTestCategoryImg.png');
+      case '../../assets/images/liverTestImg.png':
+        return require('../../assets/images/liverTestImg.png');
+      case '../../assets/images/kidneyTestImg.png':
+        return require('../../assets/images/kidneyTestImg.png');
+      case '../../assets/images/diabetesTestImg.png':
+        return require('../../assets/images/diabetesTestImg.png');
+      default:
+        console.warn('Unknown image path:', imagePath);
+        return null; 
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -62,7 +88,7 @@ const HomeScreen = () => {
           </>
         }
         renderItem={({ item }) => (
-          <CategoryBox name={item.name} image={item.image} onPress={() => navigation.navigate('Category', { category: item.name })} />
+          <CategoryBox name={item.name} image={resolveLocalImage(item.image)} onPress={() => navigation.navigate('Category', { category: item.name })} />
         )}
       />
     </View>

@@ -87,12 +87,47 @@ export default function CategoryScreen({navigation,route}) {
       }
     };
 
+    // const getImage = ()=>{
+    //   return selectedCategory==='Blood Tests' ? require('../../assets/images/bloodTestCategoryImg.png') :
+    //          selectedCategory==='Heart Health Tests' ? require('../../assets/images/heartHealthTestCategoryImg.png') :
+    //          selectedCategory==='Liver Function Tests' ? require('../../assets/images/liverTestImg.png') :
+    //          selectedCategory==='Kidney Tests' ? require('../../assets/images/kidneyTestImg.png') :
+    //          selectedCategory=== 'Diabetes Tests' ? require('../../assets/images/diabetesTestImg.png') : ''
+    // };
+
     const getImage = ()=>{
-      return selectedCategory==='Blood Tests' ? require('../../assets/images/bloodTestCategoryImg.png') :
-             selectedCategory==='Heart Health Tests' ? require('../../assets/images/heartHealthTestCategoryImg.png') :
-             selectedCategory==='Liver Function Tests' ? require('../../assets/images/liverTestImg.png') :
-             selectedCategory==='Kidney Tests' ? require('../../assets/images/kidneyTestImg.png') :
-             selectedCategory=== 'Diabetes Tests' ? require('../../assets/images/diabetesTestImg.png') : ''
+      switch (selectedCategory) {
+        case 'Blood Tests':
+          return '../../assets/images/bloodTestCategoryImg.png';
+        case 'Heart Health Tests':
+          return '../../assets/images/heartHealthTestCategoryImg.png';
+        case 'Liver Function Tests':
+          return '../../assets/images/liverTestImg.png';
+        case 'Kidney Tests':
+          return '../../assets/images/kidneyTestImg.png';
+        case 'Diabetes Tests':
+          return '../../assets/images/diabetesTestImg.png'; 
+        default:
+          return ''; 
+      }
+    };
+
+    const resolveLocalImage = (imagePath) => {
+      switch (imagePath) {
+        case '../../assets/images/bloodTestCategoryImg.png':
+          return require('../../assets/images/bloodTestCategoryImg.png');
+        case '../../assets/images/heartHealthTestCategoryImg.png':
+          return require('../../assets/images/heartHealthTestCategoryImg.png');
+        case '../../assets/images/liverTestImg.png':
+          return require('../../assets/images/liverTestImg.png');
+        case '../../assets/images/kidneyTestImg.png':
+          return require('../../assets/images/kidneyTestImg.png');
+        case '../../assets/images/diabetesTestImg.png':
+          return require('../../assets/images/diabetesTestImg.png');
+        default:
+          console.warn('Unknown image path for display:', imagePath);
+          return null;
+      }
     };
 
     useEffect(()=>{
@@ -133,7 +168,17 @@ export default function CategoryScreen({navigation,route}) {
               <ActivityIndicator size="large" color="#3b7cff" />
             </View>
           ) : (
-            <LabTestList data={labtestsByCategory} onPress={(item) => navigation.navigate('LabTestDetails', { labtest: item })}/>
+            <LabTestList 
+            data={labtestsByCategory.map(item => ({
+              ...item,
+              image: resolveLocalImage(item.image) 
+            }))} 
+            // onPress={(item) => navigation.navigate('LabTestDetails', { labtest: item })}
+            onPress={(item) => {
+              const originalItem = labtestsByCategory.find(lt => lt.id === item.id);
+              navigation.navigate('LabTestDetails', { labtest: originalItem || item });
+            }}
+            />
           )
         }
 

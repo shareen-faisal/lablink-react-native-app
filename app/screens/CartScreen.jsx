@@ -207,6 +207,24 @@ const CartScreen = ({ navigation }) => {
 
     const { cart, removeFromCart, total, subTotal } = useContext(CartContext);
 
+    const resolveLocalImage = (imagePath) => {
+        switch (imagePath) {
+          case '../../assets/images/bloodTestCategoryImg.png':
+            return require('../../assets/images/bloodTestCategoryImg.png');
+          case '../../assets/images/heartHealthTestCategoryImg.png':
+            return require('../../assets/images/heartHealthTestCategoryImg.png');
+          case '../../assets/images/liverTestImg.png':
+            return require('../../assets/images/liverTestImg.png');
+          case '../../assets/images/kidneyTestImg.png':
+            return require('../../assets/images/kidneyTestImg.png');
+          case '../../assets/images/diabetesTestImg.png':
+            return require('../../assets/images/diabetesTestImg.png');
+          default:
+            console.warn('Unknown image path for display:', imagePath);
+            return null; 
+        }
+      };
+
     const applyNavigation = () => {
         navigation.navigate('Checkout');
     };
@@ -263,7 +281,7 @@ const CartScreen = ({ navigation }) => {
                             >
                                 <Image
                                     style={styles.itemImage}
-                                    source={labtest.image}
+                                    source={resolveLocalImage(labtest.image)}
                                 />
 
                                 <View style={styles.itemNamePriceView}>

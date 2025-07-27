@@ -306,12 +306,30 @@ const LabTestDetailScreen = ({route}) => {
       
   }
 
-  const getImage = ()=>{
-    return labTest.category==='Blood Tests' ? require('../../assets/images/bloodTestCategoryImg.png') :
-    labTest.category==='Heart Health Tests' ? require('../../assets/images/heartHealthTestCategoryImg.png') :
-    labTest.category==='Liver Function Tests' ? require('../../assets/images/liverTestImg.png') :
-    labTest.category==='Kidney Tests' ? require('../../assets/images/kidneyTestImg.png') :
-    labTest.category=== 'Diabetes Tests' ? require('../../assets/images/diabetesTestImg.png') : ''
+  // const getImage = ()=>{
+  //   return labTest.category==='Blood Tests' ? require('../../assets/images/bloodTestCategoryImg.png') :
+  //   labTest.category==='Heart Health Tests' ? require('../../assets/images/heartHealthTestCategoryImg.png') :
+  //   labTest.category==='Liver Function Tests' ? require('../../assets/images/liverTestImg.png') :
+  //   labTest.category==='Kidney Tests' ? require('../../assets/images/kidneyTestImg.png') :
+  //   labTest.category=== 'Diabetes Tests' ? require('../../assets/images/diabetesTestImg.png') : ''
+  // };
+
+  const resolveLocalImage = (imagePath) => {
+    switch (imagePath) {
+      case '../../assets/images/bloodTestCategoryImg.png':
+        return require('../../assets/images/bloodTestCategoryImg.png');
+      case '../../assets/images/heartHealthTestCategoryImg.png':
+        return require('../../assets/images/heartHealthTestCategoryImg.png');
+      case '../../assets/images/liverTestImg.png':
+        return require('../../assets/images/liverTestImg.png');
+      case '../../assets/images/kidneyTestImg.png':
+        return require('../../assets/images/kidneyTestImg.png');
+      case '../../assets/images/diabetesTestImg.png':
+        return require('../../assets/images/diabetesTestImg.png');
+      default:
+        console.warn('Unknown image path for display:', imagePath);
+        return null; 
+    }
   };
 
   const handleAddToCart = ()=>{
@@ -325,8 +343,8 @@ const LabTestDetailScreen = ({route}) => {
   const formattedDate = dayjs(selectedDate).format('M/D/YY');
   const formattedTime = dayjs(selectedTime, 'h:mm A').format('hh:mm A');
     
-    const image = getImage()
-    addToCart({...labTest,image:image,quantity:quantity,date:formattedDate,time:formattedTime})
+    // const image = getImage()
+    addToCart({...labTest, image: labTest.image ,quantity:quantity,date:formattedDate,time:formattedTime})
     Toast.show({
       type: 'success',
       text1: 'Lab Test Added to Cart!',
@@ -346,7 +364,7 @@ const LabTestDetailScreen = ({route}) => {
           <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.headingContainer}>
                 <View>
-                    <Image style={styles.image} source={labTest.image} />
+                    <Image style={styles.image} source={resolveLocalImage(labTest.image)} />
 
                 </View>
 
