@@ -76,6 +76,24 @@ const SearchResults = ({navigation})=>{
     }
   };
 
+  const resolveLocalImage = (imagePath) => {
+    switch (imagePath) {
+      case '../../assets/images/bloodTestCategoryImg.png':
+        return require('../../assets/images/bloodTestCategoryImg.png');
+      case '../../assets/images/heartHealthTestCategoryImg.png':
+        return require('../../assets/images/heartHealthTestCategoryImg.png');
+      case '../../assets/images/liverTestImg.png':
+        return require('../../assets/images/liverTestImg.png');
+      case '../../assets/images/kidneyTestImg.png':
+        return require('../../assets/images/kidneyTestImg.png');
+      case '../../assets/images/diabetesTestImg.png':
+        return require('../../assets/images/diabetesTestImg.png');
+      default:
+        console.warn('Unknown image path for display:', imagePath);
+        return null; 
+    }
+  };
+
   useEffect(()=>{
     fetchLabTests()
   },[])
@@ -87,21 +105,21 @@ const SearchResults = ({navigation})=>{
     ))
   
     const searchResults = results.map((item) => {
-      let image;
+      let imagePath; 
     
       if (item.category === 'Blood Tests') {
-        image = require('../../assets/images/bloodTestCategoryImg.png');
+        imagePath = '../../assets/images/bloodTestCategoryImg.png';
       } else if (item.category === 'Heart Health Tests') {
-        image = require('../../assets/images/heartHealthTestCategoryImg.png');
+        imagePath = '../../assets/images/heartHealthTestCategoryImg.png';
       } else if (item.category === 'Liver Function Tests') {
-        image = require('../../assets/images/liverTestImg.png');
+        imagePath = '../../assets/images/liverTestImg.png';
       } else if (item.category === 'Kidney Tests') {
-        image = require('../../assets/images/kidneyTestImg.png');
+        imagePath = '../../assets/images/kidneyTestImg.png';
       } else if (item.category === 'Diabetes Tests') {
-        image = require('../../assets/images/diabetesTestImg.png');
+        imagePath = '../../assets/images/diabetesTestImg.png'; 
       }
     
-      return image ? { ...item, image } : item;
+      return imagePath ? { ...item, image: imagePath } : item; 
     });
 
     setFilteredTests(searchResults)
@@ -122,7 +140,17 @@ const SearchResults = ({navigation})=>{
                 <ActivityIndicator size="large" color="#3b7cff" />
               </View>
             ) : (
-              searchInput!=='' && <LabTestList data={filteredTests} onPress={(item) => navigation.navigate('LabTestDetails', { labtest: item })} /> 
+              searchInput!=='' && <LabTestList 
+              data={filteredTests.map(item => ({
+                ...item,
+                image: resolveLocalImage(item.image) 
+              }))} 
+              // onPress={(item) => navigation.navigate('LabTestDetails', { labtest: item })}
+              onPress={(item) => {
+                const originalItem = filteredTests.find(lt => lt.id === item.id);
+                navigation.navigate('LabTestDetails', { labtest: originalItem || item });
+              }}
+              /> 
             )}
 
           </View>
@@ -130,56 +158,3 @@ const SearchResults = ({navigation})=>{
 }
 
 export default SearchResults;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

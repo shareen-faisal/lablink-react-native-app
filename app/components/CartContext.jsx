@@ -391,6 +391,178 @@
 // }
 
 
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { createContext, useCallback, useEffect, useState } from 'react';
+// import Toast from 'react-native-toast-message';
+// import { BASE_URL } from '../../config';
+
+
+// export const CartContext = createContext()
+
+
+
+// export default function CartProvider({children }) {
+//     const [cart,setCart] = useState([]);
+//     const [total,setTotal] = useState(0)
+//     const [subTotal,setSubTotal] = useState(0);
+//     const [isCartLoaded, setIsCartLoaded] = useState(false);
+//     const [currentUserId, setCurrentUserId] = useState(null);
+//     const [currentUserToken, setCurrentUserToken] = useState(null);
+
+//     const fetchAuthTokens = useCallback(async () => {
+//       console.log('CartProvider: Attempting to fetch auth tokens from AsyncStorage.');
+//       const userId = await AsyncStorage.getItem('userId');
+//       const userToken = await AsyncStorage.getItem('userToken');
+//       setCurrentUserId(userId);
+//       setCurrentUserToken(userToken);
+//       console.log('CartProvider: Fetched auth tokens - userId:', userId, 'token presence:', !!userToken);
+//     }, []); 
+
+//     useEffect(() => {
+//       fetchAuthTokens();
+//     }, [fetchAuthTokens]);
+
+//     const loadCartFromDB = useCallback(async () => {
+//       console.log('loadCartFromDB: Called. currentUserId:', currentUserId, 'currentUserToken presence:', !!currentUserToken);
+//       try {
+//         if (!currentUserId || !currentUserToken) {
+//           console.warn('loadCartFromDB: User not logged in or token missing. Cannot load cart.');
+//           setCart([]); 
+//           setIsCartLoaded(true); 
+//           return;
+//         }
+
+//         const response = await fetch(`${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`);
+        
+//         if (!response.ok) {
+//           console.error(`loadCartFromDB: Failed to fetch cart: ${response.status} ${response.statusText}`);
+//           setCart([]);
+//           setIsCartLoaded(true);
+//           return;
+//         }
+
+//         const data = await response.json();
+//         console.log('loadCartFromDB: Fetched data:', data);
+
+//         const loadedCart = (data ? Object.values(data) : []).map(item => ({
+//             ...item,
+//             date: item.date, 
+//         }));
+        
+//         setCart(loadedCart);
+//         console.log('loadCartFromDB: Cart loaded successfully:', loadedCart);
+
+//       } catch (error) {
+//         console.error('loadCartFromDB: Error loading cart from DB:', error);
+//         Toast.show({
+//           type: 'error',
+//           text1: 'Failed to load your cart.',
+//           text2: 'Please check your internet connection.',
+//         });
+//         setCart([]); 
+//       } finally {
+//         setIsCartLoaded(true); 
+//       }
+//     }, [currentUserId, currentUserToken]); 
+
+//     const storeCartinDB = useCallback(async ()=>{ 
+//       console.log('storeCartinDB: Called. isCartLoaded:', isCartLoaded);
+//       if (!isCartLoaded) {
+//         console.log('storeCartinDB: Cart not yet loaded, skipping save.');
+//         return;
+//       }
+//       try{
+//         if (!currentUserId || !currentUserToken) {
+//           console.warn('storeCartinDB: User not logged in or token missing. Cart will not be stored in DB.');
+//           return;
+//         }
+
+//         // console.log('storeCartinDB: Cart data being sent:', JSON.stringify(cart));
+//         // console.log(`storeCartinDB: Saving to URL: ${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`);
+
+//         const response = await fetch(`${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`,{
+//           method:'PUT',
+//           headers:{
+//             'Content-Type': 'application/json' 
+//           },
+//           body:JSON.stringify(cart) 
+//         })
+
+//         if (!response.ok) {
+//           const errorData = await response.json(); 
+//           throw new Error(`Failed to store cart in DB: ${response.status} ${response.statusText}. Details: ${JSON.stringify(errorData)}`);
+//         }
+    
+//         console.log('Cart stored successfully in DB.');
+//       }catch(error){
+//         console.error('Error saving cart to DB:', error);
+//         Toast.show({
+//           type: 'error',
+//           text1: 'Failed to save cart.',
+//           text2: error.message || 'Please check your internet connection or try again later.',
+//         });
+//       }
+//     }, [cart, currentUserId, currentUserToken, isCartLoaded]); 
+
+//     useEffect(() => {
+//         setIsCartLoaded(false); 
+//         loadCartFromDB();
+//     }, [currentUserId, currentUserToken, loadCartFromDB]); 
+
+//     useEffect(()=>{
+//         if (isCartLoaded) {
+//             storeCartinDB();
+//         }
+//     },[cart, isCartLoaded, storeCartinDB])
+    
+//     const addToCart=(item)=>{
+//         setCart((p)=>{
+//             const isPressent = p.findIndex((temp)=>(
+//                 temp.name===item.name && 
+//                 temp.date === item.date && 
+//                 temp.time===item.time
+//             ));
+//             if(isPressent!==-1){
+//                 const updated = [...p];
+//                 updated[isPressent]={...updated[isPressent], quantity: updated[isPressent].quantity+item.quantity};
+//                 return updated;
+//             }else{
+//                 return [...p,{...item}] 
+//             }
+//         })
+//     }
+
+//     const removeFromCart = (id, date, time) => {
+//         setCart((prevCart) =>
+//           prevCart.filter(
+//             (item) => !(item.id === id && item.date === date && item.time === time)
+//           )
+//         );
+//       };
+
+//     const clearCart = ()=>{
+//         setCart([]);
+//     }
+
+//   const getTotalItems = () => {
+//     return cart.reduce((sum, item) => sum + item.quantity, 0);
+//   };
+
+//     useEffect(() => {
+//     const newSubTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+//     const deliveryCharges = cart.length > 0 ? 150 : 0;
+//     setSubTotal(newSubTotal);
+//     setTotal(newSubTotal + deliveryCharges);
+//   }, [cart]);
+
+//   return (
+//     <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalItems,clearCart,total,subTotal,setCart, fetchAuthTokens }}>
+//     {children}
+//   </CartContext.Provider>
+    
+//   )
+// }
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
@@ -444,7 +616,10 @@ export default function CartProvider({children }) {
         const data = await response.json();
         console.log('loadCartFromDB: Fetched data:', data);
 
-        const loadedCart = (data ? Object.values(data) : []).map(item => ({
+        // Ensure data is an object before calling Object.values
+        // If Firebase stores an empty array as null or {}, this handles it.
+        // If it somehow stores a string "[]", this will still result in an empty array.
+        const loadedCart = (data && typeof data === 'object' ? Object.values(data) : []).map(item => ({
             ...item,
             date: item.date, 
         }));
@@ -477,15 +652,19 @@ export default function CartProvider({children }) {
           return;
         }
 
-        // console.log('storeCartinDB: Cart data being sent:', JSON.stringify(cart));
-        // console.log(`storeCartinDB: Saving to URL: ${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`);
+        // CRITICAL CHANGE: If cart is empty, send an empty object to Firebase to clear the node.
+        // Otherwise, send the stringified cart array.
+        const dataToStore = cart.length > 0 ? cart : {}; 
+
+        console.log('storeCartinDB: Cart data being sent:', JSON.stringify(dataToStore));
+        console.log(`storeCartinDB: Saving to URL: ${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`);
 
         const response = await fetch(`${BASE_URL}/cart/${currentUserId}.json?auth=${currentUserToken}`,{
           method:'PUT',
           headers:{
             'Content-Type': 'application/json' 
           },
-          body:JSON.stringify(cart) 
+          body:JSON.stringify(dataToStore) 
         })
 
         if (!response.ok) {
