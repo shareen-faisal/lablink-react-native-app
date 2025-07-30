@@ -40,7 +40,6 @@ To get a local copy of the Lab Link project up and running on your machine, foll
 ### Prerequisites
 
 - **Node.js and npm** must be installed. Download from [https://nodejs.org/](https://nodejs.org/)
-- **Apache Server** (e.g., XAMPP or similar) to run the database
 - **Expo Go app** installed on your mobile device:
   - [Android (Play Store)](https://play.google.com/store/apps/details?id=host.exp.exponent)
   - [iOS (App Store)](https://apps.apple.com/app/expo-go/id982107779)
@@ -52,6 +51,7 @@ To get a local copy of the Lab Link project up and running on your machine, foll
 ```bash
 git clone https://github.com/shareen-faisal/lablink-react-native-app.git
 cd lablink-react-native-app
+```
 
 ### 📦 Install Dependencies
 
