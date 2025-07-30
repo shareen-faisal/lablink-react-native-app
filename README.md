@@ -52,3 +52,26 @@ To get a local copy of the Lab Link project up and running on your machine, foll
 ```bash
 git clone https://github.com/shareen-faisal/lablink-react-native-app.git
 cd lablink-react-native-app
+
+### 📦 Install Dependencies
+
+Install the required packages using npm:
+
+```bash
+npm install
+```
+
+### ▶️ Running the App
+
+After the dependencies are installed, start the development server with Expo:
+
+```bash
+npx expo start
+```
+
+This will open a browser window with a QR code.  
+Scan the QR code using the **Expo Go** app on your mobile device to launch and preview the app.
+
+> Make sure your computer and phone are connected to the same Wi-Fi network.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
