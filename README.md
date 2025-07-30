@@ -1,54 +1,54 @@
-<<<<<<< HEAD
-# Welcome to your Expo app 👋
+<a id="readme-top"></a>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<div align="center">
 
-## Get started
+  <h3 align="center">Lab Link - Lab Test Booking Mobile App</h3>
 
-1. Install dependencies
+  <p align="center">
+    A mobile app designed to simplify lab test bookings for users and streamline order management for lab administrators.
+    <br />
+    <br />
+  </p>
+</div>
 
+---
+
+## 📱 About The Project
+
+[![Product Screenshot](screenshots/about.png)](https://github.com/shareen-faisal/lab-link-lab-test-booking)
+
+**Lab Link** is a cross-platform mobile application built to revolutionize how users book medical lab tests. Users can explore tests, book appointments, and receive updates, while labs can manage bookings and records through a dedicated admin panel.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 🛠️ Built With
+
+- ![React Native](https://img.shields.io/badge/React_Native-20232a?style=for-the-badge&logo=react&logoColor=61dafb)
+- ![Firebase](https://img.shields.io/badge/Firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
+- ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 🚀 Getting Started
+
+Follow these instructions to set up and run the project on your local environment.
+
+### 📋 Prerequisites
+
+Make sure the following are installed:
+
+- **Node.js** and **npm**
+- **Python 3.x**
+- **Apache Server** (XAMPP/WAMP) to host MySQL DB
+
+---
+
+### 📦 Installation Steps
+
+1. **Clone the repository**
    ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-=======
-# LabLink
->>>>>>> 382046b997ef4670697ee24ea9ad2210934ab8dd
+   git clone https://github.com/shareen-faisal/lab-link-lab-test-booking.git
