@@ -33,22 +33,22 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-Follow these instructions to set up and run the project on your local environment.
+To get a local copy of the Lab Link project up and running on your machine, follow these steps.
 
-### 📋 Prerequisites
+### Prerequisites
 
-Make sure the following are installed:
+- **Node.js and npm** must be installed. Download from [https://nodejs.org/](https://nodejs.org/)
+- **Apache Server** (e.g., XAMPP or similar) to run the database
+- **Expo Go app** installed on your mobile device:
+  - [Android (Play Store)](https://play.google.com/store/apps/details?id=host.exp.exponent)
+  - [iOS (App Store)](https://apps.apple.com/app/expo-go/id982107779)
 
-- **Node.js** and **npm**
-- **Python 3.x**
-- **Apache Server** (XAMPP/WAMP) to host MySQL DB
+### Installation
 
----
+#### 1. Clone the Repository
 
-### 📦 Installation Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/shareen-faisal/lab-link-lab-test-booking.git
+```bash
+git clone https://github.com/shareen-faisal/lablink-react-native-app.git
+cd lablink-react-native-app
