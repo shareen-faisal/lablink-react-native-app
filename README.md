@@ -15,7 +15,7 @@
 
 ## 📱 About The Project
 
-[![Product Screenshot](screenshots/about.png)](https://github.com/shareen-faisal/lab-link-lab-test-booking)
+[![Product Screenshot](screenshots/about.png)](https://github.com/shareen-faisal/lablink-react-native-app)
 
 **Lab Link** is a cross-platform mobile application built to revolutionize how users book medical lab tests. Users can explore tests, book appointments, and receive updates, while labs can manage bookings and records through a dedicated admin panel.
 
