@@ -75,3 +75,14 @@ Scan the QR code using the **Expo Go** app on your mobile device to launch and p
 > Make sure your computer and phone are connected to the same Wi-Fi network.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## 📧 Contact
+
+**Shareen Faisal**  
+🔗 [GitHub](https://github.com/shareen-faisal)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
