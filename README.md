@@ -5,7 +5,7 @@
   <h3 align="center">Lab Link - Lab Test Booking Mobile App</h3>
 
   <p align="center">
-    A mobile app designed to simplify lab test bookings for users and streamline order management for lab administrators.
+    A mobile app designed to simplify lab test bookings for users and streamline booking management for lab administrators.
     <br />
     <br />
   </p>
@@ -15,9 +15,11 @@
 
 ## 📱 About The Project
 
+**Lab Link** is a cross-platform mobile application built to revolutionize how users book medical lab tests. Users can explore tests, and book appointments for home sampling, while labs can manage bookings and records through a dedicated admin panel.
+
 [![Product Screenshot](screenshots/about.png)](https://github.com/shareen-faisal/lablink-react-native-app)
 
-**Lab Link** is a cross-platform mobile application built to revolutionize how users book medical lab tests. Users can explore tests, book appointments, and receive updates, while labs can manage bookings and records through a dedicated admin panel.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
